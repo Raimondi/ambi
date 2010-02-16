@@ -16,22 +16,7 @@
 		width: 100%;
 	}
 	#run {
-	  position: fixed;
-	  top: 0;
-	  left: 0em;
-	  width: 45%;
-	  height: 15em;
-	  right: auto;
-	  margin: 1%
-
-	}
-	#docs {
-	  position: absolute;
-	  top: 0;
-	  right: 0em;
-	  width: 45%;
-	  left: auto;
-	  margin: 1%;
+	  width: 100%;
 	}
 	h1 {
 		margin: 0px;
@@ -43,9 +28,16 @@
 		margin-bottom: 0px;
 		color:  #0300B2
 	}
+	h3, h4 {
+		color:  #7785FF
+	}
+	table { 
+		width: 100%;
+	}
 	td {
 		vertical-align: top;
-		padding-left: 3em;
+		width: 50%;
+		padding: 1ex;
 	}
 	p {
 		margin-top: 3px;
