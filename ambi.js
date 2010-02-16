@@ -215,14 +215,14 @@ AmbiExprStack.prototype.OpList.push("dup");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDup);
 
 // swap - Operator
-AmbiExprStack.prototype.AmbiDup = function(that)  {
+AmbiExprStack.prototype.AmbiSwap = function(that)  {
 	a = that.popval();
 	b = that.popval();
 	that.push(a);
 	that.push(b);
 }
-AmbiExprStack.prototype.OpList.push("dup");
-AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDup);
+AmbiExprStack.prototype.OpList.push("swap");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSwap);
 
 
 
