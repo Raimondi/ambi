@@ -1,0 +1,76 @@
+	body {
+		font-family: sans-serif;
+		color: #808080;
+	}
+	#source {
+		background-color:#FFF7D8;
+		border: 1px dashed #FFD026;
+		width: 100%;
+	}
+	#result {
+		background: #D8DAFF;
+		border: 1px dashed #2634FF;
+		width: 100%;
+	}
+	#vars {
+		width: 100%;
+	}
+	#run {
+	  position: fixed;
+	  top: 0;
+	  left: 0em;
+	  width: 45%;
+	  height: 15em;
+	  right: auto;
+	  margin: 1%
+
+	}
+	#docs {
+	  position: absolute;
+	  top: 0;
+	  right: 0em;
+	  width: 45%;
+	  left: auto;
+	  margin: 1%;
+	}
+	h1 {
+		margin: 0px;
+		padding: 0;
+		font-size: 24px;
+		color: #0300B2;
+	}
+	h2, h3, h4 {
+		margin-bottom: 0px;
+		color:  #0300B2
+	}
+	td {
+		vertical-align: top;
+		padding-left: 3em;
+	}
+	p {
+		margin-top: 3px;
+		margin-bottom: 0px;
+	}
+	code {
+		background-color:#FFF7D8;
+		border:1px dashed #FFD026;
+		display: block;
+		white-space: pre;
+		margin-left: 3em;
+		width: 80%;
+		padding: 2px 1em;
+		color: black;
+	}
+	code.grammar {
+		background-color:#F9F9F9;
+		border:1px dashed #2F6FAB;
+		color:black;
+		line-height:1.1em;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		display: block;
+		margin-left: 3em;
+		width: 80%;
+		padding: 2px 1em;
+		color: black;
+	}

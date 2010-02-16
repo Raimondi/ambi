@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<title>Ambi - an RPN programming language</title>
+	<meta name="keywords" content="ambi, rpn, reverse polish notation, polish notation, pn, calculator, programming language, ">
+	<meta name="copyright" content="David Pratten 2009 GPL 3">
+	<meta name="author" content="David Pratten">
+	<script src="ambi.js" type="text/javascript"></script>
+	<script src="jquery-1.3.1.min.js" type="text/javascript"></script>
+	<script src="ambi-interface.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="ambi.css" />
+</head>
+<body>
+	<div id="run">
+	<h2 id="top">Ambi - an RPN programming language</h2>
+	<h3>Type Expression or Program</h3><form name="runform">
+<textarea id="source" name="source" rows="10"  >// Example: Sum a column of figures;
+23
+55
+76
+11
+23
+12
+.. sum .;</textarea>
+<h3>Click or Tab into Results Field</h3><textarea id="result" rows="10"></textarea></form>
+		<h2>Variables</h2><p><small><em><a id="clearvars" href="">Clear variables</a></em></small></p><div id="vars"  ></div>
+		</div>
+		<div id="docs">	
+	<p><small><em>Version 0.4.4 2009-01-29 License: GPL3 (C) 2009 David Pratten</em></small></p>
+		<h2>Introduction</h2>
+		<p>Ambi is a programming language generalised from Reverse Polish Notation 
+			arithmetic and an extensible RPN Calculator hosted in the browser. Other languages such as <a href="http://en.wikipedia.org/wiki/Forth_(programming_language)">Forth</a> and <a href="http://en.wikipedia.org/wiki/RPL_%28programming_language%29">RPL</a> have similar roots and illustrious histories, but have embraced non-RPN elements as they developed.  In contrast, Ambi attempts to stick strictly to the RPN approach. Ambi also has similarities to the <a  href="http://en.wikipedia.org/wiki/Cat_(programming_language)">CAT</a> language.</p>
+		<h2>Why "Ambi"</h2>
+		<p>"Ambi" is named for its ability to be ambidextrous with expressions and programs. Ambi detects and correctly evaluates 
+			expressions and programs either in Reverse Polish Notation or in Polish Notation. For example, the following two expressions give the same answer:<br /> <code class="ambi">3 5 + 2 / .</code> and <code class="ambi">. / + 3 5 2</code></p>
+		<h2>Contact and Bug Reporting</h2>
+		<p>To contact David Pratten, the author of Ambi, please leave a comment at his <a href="http://www.davidpratten.com">blog</a></p>
+		<h2>Documentation</h2>
+		<h3>Expressions</h3>
+		<p>Expressions are terminated by semi-colons: <strong>;</strong> Each expression starts with a fresh stack. Variables defined in one expression are available in expressions evaluated later. Expressions can be of arbitary length. Empty expressions ";;" are equivalent to ";true;".</p>
+		<h3>Comments</h3>
+		<p>Comments are a special kind of expression that begins and/or ends with "//". </p>
+		<h3>Try the Sample Programs</h3>
+		<p>Each of the example programs, like this one, may be run by clicking on it.</p>
+		<code class="ambi">// Example Comment ;
+1 2 + 3 * . ;
+The answer should be 9 // ;</code>
+		<h3>Operators</h3>
+		<p><small><em>Ambi operators are not case sensitive.</em></small></p>
+		<ul><li>Arithmetic operators include: <strong>+ - * / sq sqrt abs ln floor ceil min max</strong></li>
+			<li> The Unary Minus operator is <strong>_</strong>.</li>
+			<li>Aggregate operators include: <strong>sum sumsq product</strong>.</li>
+		<li>Boolean operators include: <strong>== eq != &lt;&gt; neq &lt; lt &gt; gt &lt;= lte &gt;= gte &amp;&amp; and || or ! not</strong></li>
+		<li>Trigonometry operators (radians) include: <strong>sin cos tan asin acos atan</strong></li>
+		<li>The stack operators include <strong>dup swap</strong></li>
+		<li>The assignment operator is <strong>=</strong></li>
+<li>Compound operators include: <strong>+= -= /= *= ++ --</strong> </li>
+	<li>The <strong>.</strong> or <strong>printtop</strong> operator will print the number on top of the stack. While the <strong>..</strong> or <strong>printall</strong> operator will print the all the numbers in the stack.</li>
+	</ul>
+		<h3>Values</h3>
+		<p>Booleans are represented by numeric values. Non-zero is True, 0 is False.</p>
+		<h3>Constants</h3>
+		<p><strong>true</strong> has value 1. <strong>false</strong> as value 0. The constants <strong>pi</strong> and <strong>e</strong> are available.</p>
+
+		<h3>Variables</h3>
+		<p>Variables are names that start with "$".  Examples of valid variable names include: <strong>$a, $5, $count</strong> Variables defined outside functions are preserved between program executions. Variables define inside functions are local to the function.  There are no global variables.</p>
+		<h3>Examples</h3>
+		<p>Simple Calculation</p>
+		<code class="ambi">// Simple Calculation ;
+1 2 + 3 + 5 + 7 / .</code>
+		<p>Monitor Stack</p>
+		<code class="ambi">// Show stack values ;
+1 . 2 . + .</code>
+		<p>Variable Assignment</p>
+		<code class="ambi">// Variable Assignment and Use ;
+1 $a = 2 $b = $a $b + .</code>
+		<p>Aggregate Functions</p>
+		<code class="ambi">// Area of circle of radius 5 ;
+5 $radius = pi $radius sq product . </code>
+		<p>Area of circle function </p>
+		<h3>Multi-expression programs</h3>
+		<p>Programs may be built up by treating the expressions as lambdas acted on by the: <strong>if ifelse whiledo dowhile </strong> and <strong>function</strong> operators.</p>
+		<p>The <strong>if</strong> operator executes the second lamda expression on the stack depending on the result of executing the first. And then executes the finalise expression.</p>
+<code class="ambi">// if operator ;
+if; 
+  23.4 $a = $a floor 23 ==; 
+  $a .;
+  ;</code>
+		<p>Equivalently ...</p>
+<code class="ambi">// if operator ;
+  ;
+  $a .;
+  23.4 $a = $a floor 23 ==; 
+if; 
+  </code>
+	<code class="grammar">if; 
+  &lt;initialise &amp; test expression&gt;; 
+  &lt;if true expression&gt;;
+  &lt;finalise expression&gt;;
+<br />
+  &lt;finalise expression&gt;;
+  &lt;if true expression&gt;; 
+  &lt;initialise &amp; test expression&gt;; 
+if; </code>
+	<p>The <strong>ifelse</strong> operator is similar except that it has an &lt;if false expression&gt; as well.</p>
+	<code class="grammar">ifelse;
+  &lt;initialise &amp; test expression&gt;;
+  &lt;if true expression&gt;;
+  &lt;if false expression&gt;
+  &lt;finalise expression&gt;;
+  
+  &lt;finalise expression&gt;;
+  &lt;if false expression&gt;;
+  &lt;if true expression&gt;;
+  &lt;initialise &amp; test expression&gt;;
+ifelse;</code>
+	<p>The <strong>whiledo</strong> operator and <strong>dowhile</strong> operators differ only in that <strong>whiledo</strong> evaluates the test expression before executing the repeated expression while <strong>dowhile</strong> evaluates the repeated expression at least once and then checks the test expression.</p>
+	<p><small><em>The reverse polish variants of these operators are not shown here for brevities sake.</em></small></p>
+	<code class="grammar">
+whiledo;
+  &lt;initialise expression&gt;;
+  &lt;test expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;finalise expression&gt;;
+  
+dowhile;
+  &lt;initialise expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;test expression&gt;;
+  &lt;finalise expression&gt;;
+</code>
+	<p>The <strong>for</strong> operator mirror's the C style for construct.</p>
+	<p><small><em>The reverse polish variant of this operator is not shown here.</em></small></p>
+	<code class="grammar">for;
+  &lt;initialise expression&gt;;
+  &lt;test expression&gt;;
+  &lt;increment expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;finalise expression&gt;;
+		</code>
+<code class="ambi">// Enumerate the first 10 square numbers;
+for; 
+  1 $i =;
+  $i 11 <;
+  1 $i +=;
+  $i sq .;
+  ; 
+</code>
+
+	<p>Functions are defined using the <strong>function</strong> operator, which binds a lambda expression to a name. The only communication between a function and its calling context is via the <strong>import</strong> and <strong>export</strong> operators. Within a function body <strong>import</strong> will pop one item off the calling context's stack and push it onto the local stack.  Conversely, <strong>export</strong> takes one item off the local stack and pushes it onto the calling context's stack.</p>
+	<p><small><em>The reverse polish variant of this operator is not shown here.</em></small></p>
+	<code class="grammar">function;
+  &lt;name&gt;;
+  &lt;function body expression&gt;;
+		</code>
+<code class="ambi">// Function to Enumerate N numbers starting with M;
+function; generate; 
+  for; 
+    import $count = import $start = $start $i  =;
+    $i $start $count + <;
+    1 $i +=;
+    $i export;
+    ; 
+
+1 10 generate ..</code>
+
+		<h3>Further Examples</h3>
+<code class="ambi">// Calculate Area Of Circle ;
+function; areaofcircle; 
+  pi import sq product export;
+
+5 areaofcircle . </code>
+
+<p>Recursive Function (Prefix version)</p>
+<code class="ambi">// Factorial Function (Prefix version);
+function; ! ; 
+  ifelse; 
+    import $n = $n 1 eq;
+    1 export;
+    $n 1 - ! $n * export; 
+    ;
+// Use the function ;
+5 ! .</code>
+
+<p>Equivalent Factorial Function (Postfix version)</p>
+<code class="ambi">// Factorial Function  (Postfix version);
+. ! 6 ;
+// Define the function ;
+    ;
+    $n 1 - ! $n * export; 
+    1 export;
+    import $n = $n 1 eq;
+  ifelse; 
+! ; function </code>
+<p>The following two programs are equivalent:</p>
+
+<code class="ambi">function; max; 
+ifelse;
+  import dup $a = import dup $b = >;
+  $a export;
+  $b export;
+  ;
+1 100 max .;</code>
+<p>&nbsp;</p>
+<code class="ambi">function; max; 
+ifelse;
+  > = $a dup import = $b dup import;
+  export $a;
+  export $b;
+  ;
+. max 1 100;</code>
+<p>Interative Cuberoot Function using X(r+1) = 0.5[Xr + N/(Xr)^2];</p>
+<code class="ambi">function; cuberoot; 
+dowhile;
+  import dup $n = $guess =;
+  $guess $prev = $n $prev sq / $prev + .5 * $guess =;
+  $guess $prev - abs .000000001 >;
+  $guess export ;
+125 cuberoot .</code>
+
+<p>... and a recursive Cuberoot Function</p>
+<code class="ambi">function; inner-root3;
+if;
+  import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 >;
+  $guess $n inner-root3 $guess =;
+  $guess export;
+
+function; root3; 
+  import dup inner-root3 export ;
+
+100 root3 .</code>
+
+		<h2>Implementation</h2>
+		<p>Ambi is currently implemented in javascript that executes completely in your browser.</p>
+		<h2>Version Change Log</h2>
+		<p><small><em>Ambi is downloadable as a .zip file.</em></small></p>
+		<p>0.4.4 Streamlining. <a href="ambi-0.4.4.zip">download</a></p>
+		<ul>
+			<li>ADD: The increment and decrment <strong>++ --</strong> operators. </li>
+			<li>CHG: Removed the <strong>seq</strong> operator. It is no longer necessary.</li>
+			<li>ADD: Added the <strong>pass</strong> constant. It does nothing, it is behaves as a synonym for <strong>true</strong>.</li>
+			<li>CHG: The empty expression ";;" is now equivalent to ";pass;" .</li>
+			<li>CHG: Added &lt;initialise expression&gt; to the <strong>dowhile whiledo</strong> and <strong>for</strong> operators. Added &lt;finalise expression&gt; to the <strong>if ifelse dowhile whiledo</strong> and <strong>for</strong> operators. The initialise and finalise expressions must always present but may be <strong>pass</strong> or simply empty.</li>
+		</ul>
+
+		<p>0.4.3 Ambi is now Turing complete. <a href="ambi-0.4.3.zip">download</a></p>
+		<ul>
+			<li>ADD: Added <strong>seq dowhile whiledo for if ifelse</strong> operators.</li>
+			<li>ADD: Added <strong>function import export</strong> operators.</li>
+			<li>ADD: Added <strong>.</strong> operator (Synonym for printtop)</li>
+			<li>ADD: Added <strong>..</strong> operator (Synonym for printall) which prints the whole stack.</li>
+			<li>ADD: Added <strong>dup</strong> <strong>swap</strong> stack operators.</li>
+			<li>ADD: Added <strong>min</strong> and <strong>max</strong> binary arithmetic operators.</li>
+			<li>ADD: Added <strong>//</strong> comment operator</li>
+			<li>ADD: Added mathematical constant <strong>e</strong>.</li>
+			<li>CHG: The unary minus operator is changed from <strong>um</strong> to <strong>_</strong>.</li>
+			<li>CHG: The prefix form of the assignment operator is now <strong>=</strong> &lt;var&gt; &lt;val&gt; </li>
+			<li>FIX: Variables were not pushed onto stack with immutable value only by mutable reference.</li>
+
+		</ul>
+		<p>0.4.2 further explands the arithmetic capabilities of Ambi. <a href="ambi-0.4.2.js">download</a></p>
+		<ul>
+			<li>ADD: Added trigonometry operators and constants.</li>
+			<li>FIX: Expressions beginning with a constant such as <strong>true</strong> where not correctly evaluated.</li>
+			<li>ADD: Added display of variables.</li>
+			<li>FIX: The unary minus operator is changed from <strong>un</strong> to <strong>um</strong>.</li>
+		</ul>
+		<p>0.4.1 is aimed at greatly expanding the arithmetic capabilities of Ambi. <a href="ambi-0.4.1.js">download</a></p>
+		<ul>
+			<li>ADD: Added boolean operators.</li>
+			<li>ADD: Added aggregate operators.</li>
+			<li>ADD: Added many arithmetic operators.</li>
+		</ul>
+		<p>0.4.0 is the first public release. <a href="ambi-0.4.0.js">download</a></p>
+	</div>
+</body>
+</html>
