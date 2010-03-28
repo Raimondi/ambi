@@ -205,6 +205,20 @@ AmbiExprStack.prototype.AmbiDiv = function(that)  {
 AmbiExprStack.prototype.OpList.push("/");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDiv);
 
+// - Operator
+AmbiExprStack.prototype.AmbiMod = function(that)  {
+	a = that.popval();
+	b = that.popval();
+	if (that.rpn) {
+		that.push(b % a);
+	} else {
+		that.push(a % b);
+	}
+}
+AmbiExprStack.prototype.OpList.push("%");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMod);
+
+
 // dup - Operator
 AmbiExprStack.prototype.AmbiDup = function(that)  {
 	a = that.popval();
