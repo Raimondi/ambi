@@ -63,7 +63,11 @@ var shownllist = function(ambiResults) { // first sprintf parameter is varname, 
 	outstr = '';
 	//alert(Vars);
 	for(key in ambiResults)	{
-		outstr += sprintf('%s',ambiResults[key])+'\n';
+		if (ambiResults[key]) {
+			outstr += sprintf('%s',ambiResults[key])+'\n';
+		} else {
+			outstr += 'Undefined\n';
+		}
 	}
 	return outstr;
 }	
