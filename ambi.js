@@ -52,49 +52,6 @@ return dumped_text;
 } 
 
 
-/**
- * START sprintf() for JavaScript v.0.4 http://code.google.com/p/sprintf/
- */
-
-
-function str_repeat(i, m) { for (var o = []; m > 0; o[--m] = i); return(o.join('')); }
-
-function sprintf () {
-  var i = 0, a, f = arguments[i++], o = [], m, p, c, x;
-  while (f) {
-    if (m = /^[^\x25]+/.exec(f)) o.push(m[0]);
-    else if (m = /^\x25{2}/.exec(f)) o.push('%');
-    else if (m = /^\x25(?:(\d+)\$)?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(f)) {
-      if (((a = arguments[m[1] || i++]) == null) || (a == undefined)) throw("Too few arguments.");
-      if (/[^s]/.test(m[7]) && (typeof(a) != 'number'))
-        throw("Expecting number but found " + typeof(a));
-      switch (m[7]) {
-        case 'b': a = a.toString(2); break;
-        case 'c': a = String.fromCharCode(a); break;
-        case 'd': a = parseInt(a); break;
-        case 'e': a = m[6] ? a.toExponential(m[6]) : a.toExponential(); break;
-        case 'f': a = m[6] ? parseFloat(a).toFixed(m[6]) : parseFloat(a); break;
-        case 'o': a = a.toString(8); break;
-        case 's': a = ((a = String(a)) && m[6] ? a.substring(0, m[6]) : a); break;
-        case 'u': a = Math.abs(a); break;
-        case 'x': a = a.toString(16); break;
-        case 'X': a = a.toString(16).toUpperCase(); break;
-      }
-      a = (/[def]/.test(m[7]) && m[2] && a > 0 ? '+' + a : a);
-      c = m[3] ? m[3] == '0' ? '0' : m[3].charAt(1) : ' ';
-      x = m[5] - String(a).length;
-      p = m[5] ? str_repeat(c, x) : '';
-      o.push(m[4] ? a + p : p + a);
-    }
-    else throw ("Huh ?!");
-    f = f.substring(m[0].length);
-  }
-  return o.join('');
-}
-
-/**
- * END sprintf() for JavaScript v.0.4 http://code.google.com/p/sprintf/
- */
 
 
 /**
@@ -109,8 +66,7 @@ String.prototype.trimsemis = function() { return this.replace(/;$/g, ''); }
 
 
 
-var Vars = new Array();
-var Results = '';
+
 /***************************************************
 Expression evaluation stack
 ***************************************************/
@@ -423,7 +379,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiNEG);
 
 // PrintTop Operator
 AmbiExprStack.prototype.AmbiPrintTop = function(that)  {
-		Results += that.topval()+'\r';
+		that.ProgStack.Results.push(that.topval());
 }
 AmbiExprStack.prototype.OpList.push("."); // from Forth but doesn't consume top of stack
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPrintTop);
@@ -435,7 +391,7 @@ AmbiExprStack.prototype.AmbiPrintAll = function(that)  {
 	entries = that.allval(true);
 	//alert (entries);
   for (var i=0; i<entries.length; i++) {
-		Results += entries[i]+'\r';
+		that.ProgStack.Results.push(entries[i]);
   }
 }
 AmbiExprStack.prototype.OpList.push("..");
@@ -453,7 +409,7 @@ AmbiExprStack.prototype.AmbiAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	Vars[a] = b;
+	that.ProgStack.Vars[a] = b;
 }
 AmbiExprStack.prototype.OpList.push("=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiAssign);
@@ -461,7 +417,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiAssign);
 // ++ Assignment Operator
 AmbiExprStack.prototype.AmbiPlusPlus = function(that)  {
 	a = that.popvar();
-	Vars[a] = Vars[a]+1;
+	that.progstack.Vars[a] = that.progstack.Vars[a]+1;
 }
 AmbiExprStack.prototype.OpList.push("++");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusPlus);
@@ -469,7 +425,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusPlus);
 // -- Assignment Operator
 AmbiExprStack.prototype.AmbiMinusMinus = function(that)  {
 	a = that.popvar();
-	Vars[a] = Vars[a]-1;
+	that.progstack.Vars[a] = that.progstack.Vars[a]-1;
 }
 AmbiExprStack.prototype.OpList.push("--");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusMinus);
@@ -485,7 +441,7 @@ AmbiExprStack.prototype.AmbiPlusAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	Vars[a] = Vars[a]+b;
+	that.progstack.Vars[a] = that.progstack.Vars[a]+b;
 }
 AmbiExprStack.prototype.OpList.push("+=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusAssign);
@@ -501,7 +457,7 @@ AmbiExprStack.prototype.AmbiMinusAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	Vars[a] = Vars[a]-b;
+	that.progstack.Vars[a] = that.progstack.Vars[a]-b;
 }
 AmbiExprStack.prototype.OpList.push("-=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusAssign);
@@ -515,7 +471,7 @@ AmbiExprStack.prototype.AmbiMultAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	Vars[a] = Vars[a]*b;
+	that.progstack.Vars[a] = that.progstack.Vars[a]*b;
 }
 AmbiExprStack.prototype.OpList.push("*=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMultAssign);
@@ -530,7 +486,7 @@ AmbiExprStack.prototype.AmbiDivAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	Vars[a] = Vars[a]/b;
+	that.progstack.Vars[a] = that.progstack.Vars[a]/b;
 }
 AmbiExprStack.prototype.OpList.push("/=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDivAssign);
@@ -704,9 +660,9 @@ AmbiExprStack.prototype.AmbiConst = function(searchStr) {
 	return false;
 }
 
-function ResolveVars(Val) {
+AmbiExprStack.prototype.ResolveVars = function (Val) {
 	if (Val.slice(0,1) == '$') {
-		return Vars[Val];  // possibly undefined value!
+		return this.ProgStack.Vars[Val];  // possibly undefined value!
 	} else {
 		return "'"+Val+"' is not a variable.";
   }
@@ -723,23 +679,6 @@ AmbiExprStack.prototype.popval = function() {
 
 
 
-
-var showvars = function(pretext,varformat,posttext) { // first sprintf parameter is varname, second is value
-	pretextoutput = false;
-	outstr = '';
-	//alert(Vars);
-	for(key in Vars)	{
-		if (!pretextoutput) {
-			pretextoutput = true;
-			outstr = pretext;
-		}
-		outstr += sprintf(varformat,key,Vars[key]);
-	}
-	if (pretextoutput) {
-		outstr += posttext;
-	}
-	return outstr;
-}	
 
 
 AmbiExprStack.prototype.allval = function(keep) {
@@ -768,12 +707,11 @@ AmbiExprStack.prototype.push = function(newItem) {
   var Undefined;
 	if (typeof(newItem) == 'string' && newItem.slice(0,1) == '$') {
 		this.stackvar.push(newItem);
-		this.stackval.push(ResolveVars(newItem));
+		this.stackval.push(this.ResolveVars(newItem));
 	} else {
 		this.stackvar.push(Undefined);
 		this.stackval.push(newItem);
 	}
-//	return this.stackval.push(ResolveVars(newItem));
 }
 
 AmbiExprStack.prototype.topval = function() {
@@ -841,12 +779,12 @@ AmbiExprStack.prototype.eval = function(exprstring) {
 				if (OpUDF) {
 					this.ProgStack.UDFStackval.push(this.stackval);
 					this.ProgStack.UDFStackvar.push(this.stackvar);
-					this.ProgStack.VarsStack.push(Vars);
-					Vars = new Array();
+					this.ProgStack.VarsStack.push(this.ProgStack.Vars);
+					this.ProgStack.Vars = new Array();
 					var res = this.AmbiUDFEXEC(this, OpUDF)
 					this.stackval = this.ProgStack.UDFStackval.pop();
 					this.stackvar = this.ProgStack.UDFStackvar.pop();
-					Vars = this.ProgStack.VarsStack.pop();
+					this.ProgStack.Vars = this.ProgStack.VarsStack.pop();
 				} else {
 					OpFunc = this.AmbiFunc(token);  
 					//alert(OpFunc); 
@@ -874,7 +812,7 @@ AmbiExprStack.prototype.eval = function(exprstring) {
 Program evaluation stack
 ***************************************************/
 
-function AmbiProgStack() {
+function AmbiProgStack(ambiVars) {
 	this.rpn = true; // perhaps we need to do the execution as part of the creation 
 	this.stack = new Array();
 	this.prog = new Array();
@@ -885,6 +823,8 @@ function AmbiProgStack() {
 	this.UDFStackval = new Array();
 	this.UDFStackvar = new Array();
 	this.VarsStack = new Array();
+	this.Vars = ambiVars;
+	this.Results = new Array();
 	
 // ProgOperators
 
@@ -1164,14 +1104,10 @@ AmbiProgStack.prototype.AmbiProgExprise = function(exprstring) {
 
 
 
-function ambieval(ambitext) {
-  Results = '';
-	var b = new AmbiProgStack();
+function ambieval(ambitext, ambiVars) {
+	var b = new AmbiProgStack(ambiVars);
 	b.AmbiProgExprise(ambitext);
   b.eval();
-  return new Array(Results,
-  	showvars(
-  		'<table>',
-		'<tr><td>%s</td><td>%s</td></tr>',
-		'</table>'));
+  return new Array(b.Results,
+  	b.Vars);
 }
