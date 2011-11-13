@@ -31,10 +31,10 @@
 	h3, h4 {
 		color:  #7785FF
 	}
-	table { 
+	table#io { 
 		width: 100%;
 	}
-	td {
+	#io td {
 		vertical-align: top;
 		width: 50%;
 		padding: 1ex;

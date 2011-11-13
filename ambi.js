@@ -417,7 +417,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiAssign);
 // ++ Assignment Operator
 AmbiExprStack.prototype.AmbiPlusPlus = function(that)  {
 	a = that.popvar();
-	that.progstack.Vars[a] = that.progstack.Vars[a]+1;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]+1;
 }
 AmbiExprStack.prototype.OpList.push("++");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusPlus);
@@ -425,7 +425,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusPlus);
 // -- Assignment Operator
 AmbiExprStack.prototype.AmbiMinusMinus = function(that)  {
 	a = that.popvar();
-	that.progstack.Vars[a] = that.progstack.Vars[a]-1;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]-1;
 }
 AmbiExprStack.prototype.OpList.push("--");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusMinus);
@@ -441,7 +441,7 @@ AmbiExprStack.prototype.AmbiPlusAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	that.progstack.Vars[a] = that.progstack.Vars[a]+b;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]+b;
 }
 AmbiExprStack.prototype.OpList.push("+=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusAssign);
@@ -457,7 +457,7 @@ AmbiExprStack.prototype.AmbiMinusAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	that.progstack.Vars[a] = that.progstack.Vars[a]-b;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]-b;
 }
 AmbiExprStack.prototype.OpList.push("-=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusAssign);
@@ -471,7 +471,7 @@ AmbiExprStack.prototype.AmbiMultAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	that.progstack.Vars[a] = that.progstack.Vars[a]*b;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]*b;
 }
 AmbiExprStack.prototype.OpList.push("*=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMultAssign);
@@ -486,7 +486,7 @@ AmbiExprStack.prototype.AmbiDivAssign = function(that)  {
 //	b = that.popval();
 //	a = that.popvar();
 //	}
-	that.progstack.Vars[a] = that.progstack.Vars[a]/b;
+	that.ProgStack.Vars[a] = that.ProgStack.Vars[a]/b;
 }
 AmbiExprStack.prototype.OpList.push("/=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDivAssign);
@@ -780,7 +780,7 @@ AmbiExprStack.prototype.eval = function(exprstring) {
 					this.ProgStack.UDFStackval.push(this.stackval);
 					this.ProgStack.UDFStackvar.push(this.stackvar);
 					this.ProgStack.VarsStack.push(this.ProgStack.Vars);
-					this.ProgStack.Vars = new Array();
+					this.ProgStack.Vars = {};
 					var res = this.AmbiUDFEXEC(this, OpUDF)
 					this.stackval = this.ProgStack.UDFStackval.pop();
 					this.stackvar = this.ProgStack.UDFStackvar.pop();
@@ -1108,6 +1108,5 @@ function ambieval(ambitext, ambiVars) {
 	var b = new AmbiProgStack(ambiVars);
 	b.AmbiProgExprise(ambitext);
   b.eval();
-  return new Array(b.Results,
-  	b.Vars);
+  return {'Results': b.Results, 'Vars': b.Vars};
 }

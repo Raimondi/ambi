@@ -73,22 +73,22 @@ var shownllist = function(ambiResults) { // first sprintf parameter is varname, 
 }	
 
 
-			var Vars = new Array()
+	var Vars = {};
 	$j=jQuery.noConflict();
 	$j(document).ready(function() {
 		$j('#clearvars').hide();
 		$j('#result').focus(
-			function(){res = ambieval($j('#source').val(),Vars); $j('#result').text(shownllist(res[0])); $j('#vars').html(showvars(
-  		'<table>',
+			function(){res = ambieval($j('#source').val(),Vars); $j('#result').text(shownllist(res['Results'])); $j('#vars').html(showvars(
+  		'<table id="varlist">',
 		'<tr><td>%s</td><td>%s</td></tr>',
-		'</table>',res[1]));
-						if (res[1]) {
+		'</table>',res['Vars']));
+                       if (!$j.isEmptyObject(res['Vars'])) {
 							$j('#clearvars').show();
 						} else {
 							$j('#clearvars').hide();
 						}
-				}
-		);
+				});
+		
 
 		$j('#source').focus().select();
 		$j('code.ambi').attr('title','Click to load this code.');
@@ -103,7 +103,7 @@ var shownllist = function(ambiResults) { // first sprintf parameter is varname, 
 		$j('#clearvars').click(
 			function(){
 				$j('#vars').html('');
-				Vars = new Array();
+				Vars = {};
 				$j('#clearvars').hide();
 				return false;
 			}
