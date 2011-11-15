@@ -93,8 +93,6 @@ var shownllist = function(ambiResults) { // first sprintf parameter is varname, 
     for (key in ambiResults) {
         if (ambiResults[key]) {
             outstr += sprintf('%s', ambiResults[key]) + '\n';
-        } else {
-            outstr += 'Undefined\n';
         }
     }
     return outstr;
@@ -110,7 +108,7 @@ function dounittest( utnum, utdesc, utcode, utvarsjson, utexpectedresultsjson) {
     var resjson = JSON.stringify(res)
     var success = resjson==utexpectedresultsjson ;
     TestSuccess += (success ? 1 : 0)
-    return '<tr class="unittestresult"><td>'+utnum+"</td><td>"+utdesc+"</td><td>"+utcode+"</td><td>"+(success?'OK':resjson)+"</td><td>"+(success?'':"FAIL")+"</td></tr>"
+    return '<tr class="unittestresult"><td>'+utnum+"</td><td>"+utdesc+"</td><td>"+utcode+"</td><td>"+resjson+"</td><td>"+(success?'OK':"FAIL")+"</td></tr>"
     // report success/fail
 }
 
@@ -135,7 +133,7 @@ $j(document).ready(function() {
             $j('#clearvars').hide();
         }
         // create this program as a unit test case
-        $j('#newunittest').text("        $j('#unittestsresults tr:last').after( dounittest( 9999, 'Description', '"+$j('#source').val().replace(/(\r\n|\n|\r)/gm,"")+"', '"+JSON.stringify(Vars)+"', '"+JSON.stringify(res)+"'));\n")
+        $j('#newunittest').text("        $j('#unittestsresults tr:last').after( dounittest( 9999, 'Description', '"+$j('#source').val().replace(/(\r\n|\n|\r)/gm,"")+"', '"+JSON.stringify(Vars)+"', '"+JSON.stringify(res).replace(/'/g, "\\'")+"'));\n")
         // 
     }
     );
@@ -172,6 +170,10 @@ $j(document).ready(function() {
         $j('#unittestsresults tr:last').after( dounittest( 5, 'For with Comment', '// Enumerate the first 10 square numbers;for;  1 $i =;  $i 11 <;  1 $i +=;  $i sq .;  ;', '{}', '{"Results":[1,4,9,16,25,36,49,64,81,100],"Vars":{"$i":11}}'));
         $j('#unittestsresults tr:last').after( dounittest( 6, 'Define and use function', '// Calculate Area Of Circle ;function; areaofcircle;  pi import sq product export;5 areaofcircle . ', '{}', '{"Results":[78.53981633974483],"Vars":{}}'));
         $j('#unittestsresults tr:last').after( dounittest( 7, 'Define and use multiple functions', 'function; inner-root3;  if;    import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 >;    $guess $n inner-root3 $guess =;    $guess export;function; root3;  import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after( dounittest( 8, 'Variable without Value', '1 $a + .', '{}', '{"Results":["\'$a\' doesn\'t have a value."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after( dounittest( 9, 'For Loop', '// Function to Enumerate N numbers starting with M;function; generate;for;  import $count = import $start = $start $i =;  $i $start $count + <;  1 $i +=;  $i export;  ;1 10 generate ..', '{}', '{"Results":[1,2,3,4,5,6,7,8,9,10],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after( dounittest( 10, 'Ifelse, import, export', 'function; ! ;  ifelse;    import $n = $n 1 eq;    1 export;    $n 1 - ! $n * export;    ;// Use the function ;5 ! .', '{}', '{"Results":[120],"Vars":{}}'));
+
         $j('#unittestsresults').before('<p class="unittestresult">'+TestSuccess/TestCount*100+'% Pass Rate</p>')
         return false;
     }
