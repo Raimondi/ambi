@@ -1,5 +1,5 @@
 /*
-Ambi Programming Language 0.4.0 A Reverse Polish (and polish) Notation Calculator and Programming Language
+Ambi Programming Language 0.6.0 A Reverse Polish (and polish) Notation Calculator and Programming Language
 Copyright (C) 2009  David Pratten david@davidpratten.com
 
 This program is free software: you can redistribute it and/or modify
@@ -59,7 +59,6 @@ AmbiExprStack.prototype.ConstList.push("false");
 AmbiExprStack.prototype.ConstFunc.push(AmbiExprStack.prototype.AmbiExprFalse);
 // pi Constant
 AmbiExprStack.prototype.AmbiExprPI = function (that) {
-    //alert(Math.PI);
     that.push(Math.PI);
 }
 AmbiExprStack.prototype.ConstList.push("pi");
@@ -384,13 +383,13 @@ AmbiExprStack.prototype.AmbiDivAssign = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("/=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDivAssign);
-// ceil Operator
-AmbiExprStack.prototype.AmbiCEIL = function (that) {
+// ceiling Operator
+AmbiExprStack.prototype.AmbiCEILING = function (that) {
     a = that.popval();
     that.push(Math.ceil(a));
 }
 AmbiExprStack.prototype.OpList.push("ceiling");
-AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiCEIL);
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiCEILING);
 // floor Operator
 AmbiExprStack.prototype.AmbiFLOOR = function (that) {
     a = that.popval();
@@ -471,7 +470,6 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiEXPORT);
 AmbiExprStack.prototype.AmbiSum = function (that) {
     total = 0;
     entries = that.allval();
-    //alert (entries);
     for (var i = 0; i < entries.length; i++) {
         total += entries[i];
     }
@@ -483,7 +481,6 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSum);
 AmbiExprStack.prototype.AmbiSumSq = function (that) {
     total = 0;
     entries = that.allval();
-    //alert (entries);
     for (var i = 0; i < entries.length; i++) {
         total += Math.pow(entries[i], 2);
     }
@@ -494,7 +491,6 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSumSq);
 AmbiExprStack.prototype.AmbiProduct = function (that) {
     total = 1;
     entries = that.allval();
-    //alert (entries);
     for (var i = 0; i < entries.length; i++) {
         total *= entries[i];
     }
@@ -502,10 +498,7 @@ AmbiExprStack.prototype.AmbiProduct = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("product");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiProduct);
-//  this.UDFList = new Array();
-//  this.UDFEntryStep = new Array();
 AmbiExprStack.prototype.AmbiUDF = function (searchStr) {
-    //alert('aaa .'+searchStr);
     for (var i = 0; i < this.ProgStack.UDFList.length; i++) {
         if (this.ProgStack.UDFList[i] === searchStr.trim()) {
             return this.ProgStack.UDFEntryStep[i];
@@ -514,7 +507,6 @@ AmbiExprStack.prototype.AmbiUDF = function (searchStr) {
     return false;
 }
 AmbiExprStack.prototype.AmbiFunc = function (searchStr) {
-    //alert (AmbiExprStack.prototype.OpList);
     for (var i = 0; i < AmbiExprStack.prototype.OpList.length; i++) {
         if (AmbiExprStack.prototype.OpList[i] === searchStr.trim()) {
             return AmbiExprStack.prototype.OpFunc[i];
@@ -523,7 +515,6 @@ AmbiExprStack.prototype.AmbiFunc = function (searchStr) {
     return false;
 }
 AmbiExprStack.prototype.AmbiConst = function (searchStr) {
-    //alert (AmbiExprStack.prototype.ConstList);
     for (var i = 0; i < AmbiExprStack.prototype.ConstList.length; i++) {
         if (AmbiExprStack.prototype.ConstList[i] === searchStr) {
             return AmbiExprStack.prototype.ConstFunc[i];
@@ -635,7 +626,7 @@ AmbiExprStack.prototype.eval = function (exprstring) {
                         if (ConstFunc) {
                             ConstFunc(this);
                         } else {
-                            return "'" + token + "' is an unknown operator";
+                            throw "AmbiError: '" + token + "' is an undefined operator";
                         }
                     }
                 }
@@ -742,7 +733,6 @@ AmbiProgStack.prototype.OpList.push("for");
 AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgFOR);
 AmbiProgStack.prototype.OpArity.push(5);
 AmbiProgStack.prototype.AmbiFunc = function (searchStr) {
-    //alert (AmbiProgStack.prototype.OpList);
     for (var i = 0; i < AmbiProgStack.prototype.OpList.length; i++) {
         if (AmbiProgStack.prototype.OpList[i] === searchStr.trim()) {
             return Array(AmbiProgStack.prototype.OpFunc[i], AmbiProgStack.prototype.OpArity[i]);
@@ -751,9 +741,8 @@ AmbiProgStack.prototype.AmbiFunc = function (searchStr) {
     return Array(false, false);
 }
 AmbiProgStack.prototype.pop = function () {
-    var popVal = this.stack.pop();
-    if (typeof(popVal) == 'undefined') return "Empty Program Stack!";
-    else return popVal;
+    // Assumption that it has been verified that there is an item to return
+    return this.stack.pop();
 }
 AmbiProgStack.prototype.push = function (newItem) {
     return this.stack.push(newItem);
