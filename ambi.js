@@ -359,13 +359,9 @@ AmbiExprStack.prototype.OpList.push("printall");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPrintAll);
 // = Assignment Operator
 AmbiExprStack.prototype.AmbiAssign = function (that) {
-    //  if (that.rpn) {
+    // symetrical under pn rpn transformation
     a = that.popvar();
     b = that.popval();
-    //  } else {
-    //  b = that.popval();
-    //  a = that.popvar();
-    //  }
     that.ProgStack.Vars[a] = b;
 }
 AmbiExprStack.prototype.OpList.push("=");
@@ -386,52 +382,36 @@ AmbiExprStack.prototype.OpList.push("--");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusMinus);
 // += Assignment Operator
 AmbiExprStack.prototype.AmbiPlusAssign = function (that) {
-    //  if (that.rpn) {
+    // symetrical under pn rpn transformation
     a = that.popvar();
     b = that.popval();
-    //  } else {
-    //  b = that.popval();
-    //  a = that.popvar();
-    //  }
     that.ProgStack.Vars[a] = that.ProgStack.Vars[a] + b;
 }
 AmbiExprStack.prototype.OpList.push("+=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPlusAssign);
 // -= Assignment Operator
 AmbiExprStack.prototype.AmbiMinusAssign = function (that) {
-    //  if (that.rpn) {
+    // symetrical under pn rpn transformation
     a = that.popvar();
     b = that.popval();
-    //  } else {
-    //  b = that.popval();
-    //  a = that.popvar();
-    //  }
     that.ProgStack.Vars[a] = that.ProgStack.Vars[a] - b;
 }
 AmbiExprStack.prototype.OpList.push("-=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMinusAssign);
 // *= Assignment Operator
 AmbiExprStack.prototype.AmbiMultAssign = function (that) {
-    //  if (that.rpn) {
+    // symetrical under pn rpn transformation
     a = that.popvar();
     b = that.popval();
-    //  } else {
-    //  b = that.popval();
-    //  a = that.popvar();
-    //  }
     that.ProgStack.Vars[a] = that.ProgStack.Vars[a] * b;
 }
 AmbiExprStack.prototype.OpList.push("*=");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiMultAssign);
 // /= Assignment Operator
 AmbiExprStack.prototype.AmbiDivAssign = function (that) {
-    //  if (that.rpn) {
+    // symetrical under pn rpn transformation
     a = that.popvar();
     b = that.popval();
-    //  } else {
-    //  b = that.popval();
-    //  a = that.popvar();
-    //  }
     that.ProgStack.Vars[a] = that.ProgStack.Vars[a] / b;
 }
 AmbiExprStack.prototype.OpList.push("/=");
@@ -715,7 +695,6 @@ Program evaluation stack
 ***************************************************/
 
 function AmbiProgStack(ambiVars) {
-    this.rpn = true; // perhaps we need to do the execution as part of the creation 
     this.stack = new Array();
     this.prog = new Array();
     this.progoperands = new Array();
@@ -735,15 +714,10 @@ AmbiProgStack.prototype.OpArity = Array();
 AmbiProgStack.prototype.AmbiProgDOWHILE = function (that, Operands) {
     // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
-    //  if (that.rpn) {
-    //      var b = 1;
-    //      var a = 0;
-    //  } else {
     var d = 3;
     var c = 2;
     var b = 1;
     var a = 0;
-    //  }
     that.AmbiExec(Operands[a]);
     do {
         that.AmbiExec(Operands[b]);
@@ -755,18 +729,11 @@ AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgDOWHILE);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgWHILEDO = function (that, Operands) {
     // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
-    //alert('Operands'+Operands[0]);
-    //alert('Operands'+Operands[1]);
     var res = false;
-    //  if (that.rpn) {
     var d = 3;
     var c = 2;
     var b = 1;
     var a = 0;
-    //  } else {
-    //      var b = 0;
-    //      var a = 1;
-    //  }
     that.AmbiExec(Operands[a]);
     while (that.AmbiExec(Operands[b])) {
         that.AmbiExec(Operands[c]);
@@ -778,17 +745,10 @@ AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgWHILEDO);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgIF = function (that, Operands) {
     // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
-    //alert('Operands'+Operands[0]);
-    //alert('Operands'+Operands[1]);
     var res = false;
-    //  if (that.rpn) {
     var c = 2
     var b = 1;
     var a = 0;
-    //  } else {
-    //      var b = 0;
-    //      var a = 1;
-    //  }
     if (that.AmbiExec(Operands[a])) {
         that.AmbiExec(Operands[b]);
     }
@@ -799,18 +759,11 @@ AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgIF);
 AmbiProgStack.prototype.OpArity.push(3);
 AmbiProgStack.prototype.AmbiProgIFELSE = function (that, Operands) {
     // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
-    //alert('Operands'+Operands[0]);
-    //alert('Operands'+Operands[1]);
     var res = false;
-    //  if (that.rpn) {
     var d = 3;
     var c = 2;
     var b = 1;
     var a = 0;
-    //  } else {
-    //      var b = 0;
-    //      var a = 1;
-    //  }
     if (that.AmbiExec(Operands[a])) {
         that.AmbiExec(Operands[b]);
     } else {
@@ -823,19 +776,12 @@ AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgIFELSE);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgFOR = function (that, Operands) {
     // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
-    //alert('Operands'+Operands[0]);
-    //alert('Operands'+Operands[1]);
     var res = false;
-    //  if (that.rpn) {
     var e = 4;
     var d = 3;
     var c = 2;
     var b = 1;
     var a = 0;
-    //  } else {
-    //      var b = 0;
-    //      var a = 1;
-    //  }
     that.AmbiExec(Operands[a]);
     while (that.AmbiExec(Operands[b])) {
         that.AmbiExec(Operands[d]);
