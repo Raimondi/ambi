@@ -547,8 +547,8 @@ AmbiExprStack.prototype.allval = function (keep) {
 AmbiExprStack.prototype.popvar = function () {
     var popVar = this.stackvar.pop();
     this.stackval.pop();
-    if (popVar.slice(0, 1) != '$') {
-        throw "AmbiError: Empty stack or not a variable";
+    if (typeof(popVar) == 'undefined' || popVar.slice(0, 1) != '$') {
+        throw "AmbiError: Variable required.";
     } else {
         return popVar;
     }
