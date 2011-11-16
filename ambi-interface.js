@@ -80,31 +80,41 @@ var showvars = function (pretext, varformat, posttext, ambiVars) { // first spri
         return outstr;
     }
 var shownllist = function (ambiResults) { // first sprintf parameter is varname, second is value
-        outstr = '';
-        //alert(Vars);
-        for (key in ambiResults) {
-            if (ambiResults[key]) {
-                outstr += sprintf('%s', ambiResults[key]) + '\n';
-            } else {
-                outstr += 'Undefined\n';
-            }
+    outstr = '';
+    //alert(Vars);
+    for (key in ambiResults) {
+        if (ambiResults[key]) {
+            outstr += sprintf('%s', ambiResults[key]) + '\n';
+        } else {
+            outstr += 'Undefined\n';
         }
-        return outstr;
     }
+    return outstr;
+}
+var execanddisplay = function() {
+    res = ambieval($j('#source').val(), Vars);
+    $j('#result').text(shownllist(res['Results']));
+    $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', res['Vars']));
+    if (!$j.isEmptyObject(res['Vars'])) {
+        $j('#clearvars').show();
+    } else {
+        $j('#clearvars').hide();
+    }
+
+}
+
 var Vars = {};
 $j = jQuery.noConflict();
-$j(document).ready(function () {
+    $j(document).ready(function () {
     $j('#clearvars').hide();
     $j('#result').focus(
-
     function () {
-        res = ambieval($j('#source').val(), Vars);
-        $j('#result').text(shownllist(res['Results']));
-        $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', res['Vars']));
-        if (!$j.isEmptyObject(res['Vars'])) {
-            $j('#clearvars').show();
-        } else {
-            $j('#clearvars').hide();
+        execanddisplay();
+    });
+    $j('#source').keyup(
+    function(event) {
+        if (event.keyCode == 32 || event.keyCode == 13 || event.keyCode == 190) {
+            execanddisplay();
         }
     });
     $j('#source').focus().select();
