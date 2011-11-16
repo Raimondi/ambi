@@ -1,3 +1,20 @@
+/*
+Ambi Programming Language 0.6.0 A Reverse Polish (and polish) Notation Calculator and Programming Language
+Copyright (C) 2009-2011  David Pratten david@prattenmail.com
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 /**
  * START sprintf() for JavaScript v.0.4 http://code.google.com/p/sprintf/
  */
@@ -84,7 +101,7 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
     //alert(Vars);
     for (key in ambiResults) {
         if (ambiResults[key]) {
-            outstr += sprintf('%s', ambiResults[key]) + '\n';
+            outstr += sprintf('%s', ambiResults[key]) + '\t';
         } else {
             outstr += 'Undefined\n';
         }
@@ -96,10 +113,10 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
     //alert(Vars);
     for (key in TopStackVal) {
         if (TopStackVar[key]) {
-            outstr += sprintf('%s', TopStackVar[key]);
+            outstr += sprintf('%s', TopStackVar[key])+'\t';
         } else { 
             if (TopStackVal[key]) {
-                outstr += sprintf('%s', TopStackVal[key]) + '\n';
+                outstr += sprintf('%s', TopStackVal[key]) + '\t';
             } else {
                 outstr += 'Undefined\n';
             }

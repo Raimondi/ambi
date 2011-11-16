@@ -1,6 +1,6 @@
 /*
 Ambi Programming Language 0.6.0 A Reverse Polish (and polish) Notation Calculator and Programming Language
-Copyright (C) 2009  David Pratten david@davidpratten.com
+Copyright (C) 2009-2011  David Pratten david@prattenmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
