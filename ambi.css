@@ -12,6 +12,11 @@
 		border: 1px dashed #2634FF;
 		width: 100%;
 	}
+	#stack {
+		background: #dadada;
+		border: 1px dashed black;
+		width: 100%;
+	}
 	#vars {
 		width: 100%;
 	}
@@ -36,7 +41,7 @@
 	}
 	#io td {
 		vertical-align: top;
-		width: 50%;
+		width: 33%;
 		padding: 1ex;
 	}
 	p {

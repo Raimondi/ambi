@@ -641,6 +641,8 @@ Program evaluation stack
 
 function AmbiProgStack(ambiVars) {
     this.stack = new Array();
+    this.TopStackVal = new Array();
+    this.TopStackVar = new Array();
     this.prog = new Array();
     this.progoperands = new Array();
     this.progoperator = new Array();
@@ -818,6 +820,8 @@ AmbiProgStack.prototype.AmbiExec = function (step) {
     } else {
         var a = new AmbiExprStack(this);
         a.eval(this.prog[step])
+        this.TopStackVal = a.stackval;
+        this.TopStackVar = a.stackvar;
         return a.topval();
     }
 }
@@ -839,6 +843,8 @@ function ambieval(ambitext, ambiVars) {
     }
     return {
         'Results': b.Results,
-        'Vars': b.Vars
+        'Vars': b.Vars,
+        'TopStackVal': b.TopStackVal,
+        'TopStackVar': b.TopStackVar
     };
 }

@@ -91,9 +91,26 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
     }
     return outstr;
 }
+var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf parameter is varname, second is value
+    outstr = '';
+    //alert(Vars);
+    for (key in TopStackVal) {
+        if (TopStackVar[key]) {
+            outstr += sprintf('%s', TopStackVar[key]);
+        } else { 
+            if (TopStackVal[key]) {
+                outstr += sprintf('%s', TopStackVal[key]) + '\n';
+            } else {
+                outstr += 'Undefined\n';
+            }
+        }
+    }
+    return outstr;
+}
 var execanddisplay = function() {
     res = ambieval($j('#source').val(), Vars);
     $j('#result').text(shownllist(res['Results']));
+    $j('#stack').text(stacknllist(res['TopStackVal'],res['TopStackVar']));
     $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', res['Vars']));
     if (!$j.isEmptyObject(res['Vars'])) {
         $j('#clearvars').show();
@@ -113,7 +130,7 @@ $j = jQuery.noConflict();
     });
     $j('#source').keyup(
     function(event) {
-        if (event.keyCode == 32 || event.keyCode == 13 || event.keyCode == 190) {
+        if (event.keyCode == 32 || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 190) {
             execanddisplay();
         }
     });
