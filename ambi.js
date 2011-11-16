@@ -16,38 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * Function : dump()
- * Arguments: The data - array,hash(associative array),object
- *    The level - OPTIONAL
- * Returns  : The textual representation of the array.
- * This function was inspired by the print_r function of PHP.
- * This will accept some data as the argument and return a
- * text that will be a more readable version of the
- * array/hash/object that is given.
- */
-
-function dump(arr, level) {
-    var dumped_text = "";
-    if (!level) level = 0;
-    //The padding given at the beginning of the line.
-    var level_padding = "";
-    for (var j = 0; j < level + 1; j++) level_padding += "    ";
-    if (typeof (arr) == 'object') { //Array/Hashes/Objects
-        for (var item in arr) {
-            var value = arr[item];
-            if (typeof (value) == 'object') { //If it is an array,
-                dumped_text += level_padding + "'" + item + "' ...\n";
-                dumped_text += dump(value, level + 1);
-            } else {
-                dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-            }
-        }
-    } else { //Stings/Chars/Numbers etc.
-        dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
-    }
-    return dumped_text;
-}
-/**
  * Start Copied from http://www.nicknettleton.com/zine/javascript/trim-a-string-in-javascript
  */
 String.prototype.trim = function () {
@@ -335,8 +303,8 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiNEG);
 // PrintTop Operator
 AmbiExprStack.prototype.AmbiPrintTop = function (that) {
     a = that.topval();
-    if (typeof (a) == 'undefined') {
-        throw "Expression Stack is Empty.";
+    if (typeof(a) == 'undefined') {
+        throw "AmbiError: Expression Stack is Empty.";
     } else {
         that.ProgStack.Results.push(that.topval());
     }
@@ -421,7 +389,7 @@ AmbiExprStack.prototype.AmbiCEIL = function (that) {
     a = that.popval();
     that.push(Math.ceil(a));
 }
-AmbiExprStack.prototype.OpList.push("ceil");
+AmbiExprStack.prototype.OpList.push("ceiling");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiCEIL);
 // floor Operator
 AmbiExprStack.prototype.AmbiFLOOR = function (that) {
@@ -479,7 +447,6 @@ AmbiExprStack.prototype.AmbiIMPORT = function (that) {
     var ImportStackvar;
     ImportStackval = that.ProgStack.UDFStackval.pop();
     ImportStackvar = that.ProgStack.UDFStackvar.pop();
-    //alert('ImportStack '+dump(ImportStack));
     that.push(ImportStackval.pop());
     ImportStackvar.pop();
     that.ProgStack.UDFStackval.push(ImportStackval);
@@ -492,7 +459,6 @@ AmbiExprStack.prototype.AmbiEXPORT = function (that) {
     var ImportStackvar;
     ImportStackval = that.ProgStack.UDFStackval.pop();
     ImportStackvar = that.ProgStack.UDFStackvar.pop();
-    //alert('ImportStack '+dump(ImportStack));
     ImportStackval.push(that.popval());
     ImportStackvar.push("");
     that.ProgStack.UDFStackval.push(ImportStackval);
@@ -568,18 +534,18 @@ AmbiExprStack.prototype.AmbiConst = function (searchStr) {
 AmbiExprStack.prototype.popval = function () {
     var popVal = this.stackval.pop();
     var popVar = this.stackvar.pop();
-    if (typeof (popVal) == 'undefined') {
-        if (typeof (popVar) == 'undefined') {
-            throw "Empty Expression Stack.";
+    if (typeof(popVal) == 'undefined') {
+        if (typeof(popVar) == 'undefined') {
+            throw "AmbiError: Empty Expression Stack.";
         } else {
-            throw "'" + popVar + "' doesn't have a value."
+            throw "AmbiError: '" + popVar + "' doesn't have a value."
         }
     } else {
         return popVal;
     }
 }
 AmbiExprStack.prototype.allval = function (keep) {
-    if (typeof (keep) == 'undefined') keep = false;
+    if (typeof(keep) == 'undefined') keep = false;
     outarr = this.stackval;
     if (!keep) {
         this.stackval = new Array();
@@ -591,14 +557,14 @@ AmbiExprStack.prototype.popvar = function () {
     var popVar = this.stackvar.pop();
     this.stackval.pop();
     if (popVar.slice(0, 1) != '$') {
-        throw "Empty stack or not a variable";
+        throw "AmbiError: Empty stack or not a variable";
     } else {
         return popVar;
     }
 }
 AmbiExprStack.prototype.push = function (newItem) {
     var Undefined;
-    if (typeof (newItem) == 'string' && newItem.slice(0, 1) == '$') {
+    if (typeof(newItem) == 'string' && newItem.slice(0, 1) == '$') {
         this.stackvar.push(newItem);
         this.stackval.push(this.ProgStack.Vars[newItem]); // may be Undefined
     } else {
@@ -618,17 +584,11 @@ AmbiExprStack.prototype.len = function () {
     return this.stackval.length;
 }
 AmbiExprStack.prototype.AmbiExprTokenise = function (exprstring) {
-    //alert(exprstring);
     tokens = exprstring.split(new RegExp("\\s+"));
-    //alert (o.OpList);
-    //alert (tokens);
     //   Ambi   Magic   
-    //alert   (dump(tokens));   
     if (tokens.length) {
         OpFunc = this.AmbiFunc(tokens[0]);
-        //alert(OpFunc);
         if (OpFunc && !(tokens[0].trim() == 'import')) {
-            //alert('polish');
             this.rpn = false; // Polish  Notation!
             tokens.reverse();
         }
@@ -640,25 +600,20 @@ AmbiExprStack.prototype.AmbiUDFEXEC = function (that, OpUDF) {
     that.ProgStack.AmbiExec(OpUDF) // experimental
 }
 AmbiExprStack.prototype.eval = function (exprstring) {
-    // no comments yet
+    // assumption exprstring is lower case.
     var outstr = '';
     var tokens = this.AmbiExprTokenise(exprstring)
-    //alert (dump(tokens));   
     for (i in tokens) {
         var token = tokens[i];
-        if (typeof (token) == 'undefined' || token == '') continue; // ignore empty tokens
-        //alert(token);
-        token = token.toLowerCase(); // all to lower
+        if (typeof(token) == 'undefined' || token == '') continue; // ignore empty tokens
         var floattoken = parseFloat(token);
         if (!isNaN(floattoken)) {
             this.push(floattoken);
         } else {
-            if (typeof (token) == 'string' && token.slice(0, 1) == '$') {
+            if (typeof(token) == 'string' && token.slice(0, 1) == '$') {
                 this.push(token);
             } else {
-                //alert (token); 
                 var OpUDF = this.AmbiUDF(token);
-                //alert('bbb '+OpUDF);
                 if (OpUDF) {
                     this.ProgStack.UDFStackval.push(this.stackval);
                     this.ProgStack.UDFStackvar.push(this.stackvar);
@@ -670,10 +625,9 @@ AmbiExprStack.prototype.eval = function (exprstring) {
                     this.ProgStack.Vars = this.ProgStack.VarsStack.pop();
                 } else {
                     OpFunc = this.AmbiFunc(token);
-                    //alert(OpFunc); 
                     if (OpFunc) {
                         var res = OpFunc(this);
-                        if (typeof (res) != 'undefined') {
+                        if (typeof(res) != 'undefined') {
                             outstr += OpFunc(this);
                         }
                     } else {
@@ -706,13 +660,12 @@ function AmbiProgStack(ambiVars) {
     this.VarsStack = new Array();
     this.Vars = ambiVars;
     this.Results = new Array();
-    // ProgOperators
 }
+// ProgOperators
 AmbiProgStack.prototype.OpList = Array();
 AmbiProgStack.prototype.OpFunc = Array();
 AmbiProgStack.prototype.OpArity = Array();
 AmbiProgStack.prototype.AmbiProgDOWHILE = function (that, Operands) {
-    // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
     var d = 3;
     var c = 2;
@@ -728,7 +681,6 @@ AmbiProgStack.prototype.OpList.push("dowhile");
 AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgDOWHILE);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgWHILEDO = function (that, Operands) {
-    // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
     var d = 3;
     var c = 2;
@@ -744,7 +696,6 @@ AmbiProgStack.prototype.OpList.push("whiledo");
 AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgWHILEDO);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgIF = function (that, Operands) {
-    // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
     var c = 2
     var b = 1;
@@ -758,7 +709,6 @@ AmbiProgStack.prototype.OpList.push("if");
 AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgIF);
 AmbiProgStack.prototype.OpArity.push(3);
 AmbiProgStack.prototype.AmbiProgIFELSE = function (that, Operands) {
-    // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
     var d = 3;
     var c = 2;
@@ -775,7 +725,6 @@ AmbiProgStack.prototype.OpList.push("ifelse");
 AmbiProgStack.prototype.OpFunc.push(AmbiProgStack.prototype.AmbiProgIFELSE);
 AmbiProgStack.prototype.OpArity.push(4);
 AmbiProgStack.prototype.AmbiProgFOR = function (that, Operands) {
-    // NEED TO ADD STACK UNDERFLOW PROTECTION HERE
     var res = false;
     var e = 4;
     var d = 3;
@@ -787,7 +736,6 @@ AmbiProgStack.prototype.AmbiProgFOR = function (that, Operands) {
         that.AmbiExec(Operands[d]);
         that.AmbiExec(Operands[c]);
     }
-    //alert(dump(Vars));
     return that.AmbiExec(Operands[e]);;
 }
 AmbiProgStack.prototype.OpList.push("for");
@@ -804,7 +752,7 @@ AmbiProgStack.prototype.AmbiFunc = function (searchStr) {
 }
 AmbiProgStack.prototype.pop = function () {
     var popVal = this.stack.pop();
-    if (typeof (popVal) == 'undefined') return "Empty Program Stack!";
+    if (typeof(popVal) == 'undefined') return "Empty Program Stack!";
     else return popVal;
 }
 AmbiProgStack.prototype.push = function (newItem) {
@@ -814,12 +762,7 @@ AmbiProgStack.prototype.len = function () {
     return this.stack.length;
 }
 AmbiProgStack.prototype.eval = function () {
-    // no comments yet
-    //alert (exprstring);
     var outstr = '';
-    //this.prog = exprlistexprstring.split(new RegExp("\\s*;\\s*"));
-    //alert (o.OpList);
-    //alert (exprs);
     var cleanprog = new Array();
     for (var i in this.prog) {
         expr = this.prog[i].toLowerCase().trim(); // all to lower
@@ -829,65 +772,62 @@ AmbiProgStack.prototype.eval = function () {
             cleanprog.push(expr); // ignore comments
         }
     }
-    //alert   (dump(cleanprog));   
     this.prog = cleanprog;
-    //   Ambi   Magic   
+
+    //   Ambi Magic   
     if (this.prog.length) {
         var FuncDets = this.AmbiFunc(this.prog[0]);
         var OpFunc = FuncDets[0];
         var OpArity = FuncDets[1];
-        //alert(OpArity);
         if (OpFunc || this.prog[0].trim() == 'function') {
-            this.rpn = false; // Polish  Notation!
             this.prog.reverse();
         }
     }
-    //alert(dump(this.prog));
     var expr;
     var OpFunc;
     var OpArity;
     var FuncDets;
     for (var i in this.prog) {
-        //alert(this.stack);  
         expr = this.prog[i];
         if (expr == 'function') {
+            if (this.len()<2) { 
+                throw "AmbiError: Function doesn't have a name plus an expression."
+            }
             this.UDFList.push(this.prog[this.pop()]);
             this.UDFEntryStep.push(this.pop());
         } else {
             FuncDets = this.AmbiFunc(expr);
             OpFunc = FuncDets[0];
             OpArity = FuncDets[1];
-            //alert(OpFunc); 
             if (OpArity) {
                 this.progoperator[i] = OpFunc;
                 this.progoperands[i] = new Array();
+                if (this.len()<OpArity) { 
+                    throw "AmbiError: '"+expr+"' doesn't have all "+OpArity+" expressions."
+                }
                 for (var j = 0; j < OpArity; j++) {
                     this.progoperands[i].push(this.pop());
                 }
             }
             this.push(i);
-            //alert(this.stack);
         }
     }
-    //alert(dump(this.prog));
-    //alert(dump(this.UDFList));
-    //alert(dump(this.UDFEntryStep));
     // At this point the program stack contains the entry points of program fragments.
     // For now just execute the last one of these
+    if (this.len()<1) { 
+        throw "AmbiError: There is no expression to evaluate."
+    }
+    if (this.len()>1) { 
+        throw "AmbiError: There is more than one expression to evaluate."
+    }
     return this.AmbiExec(this.pop());
-    //  return outstr 
 }
 AmbiProgStack.prototype.AmbiExec = function (step) {
-    //alert (step);
-    if (typeof (this.progoperator[step]) != 'undefined') {
+    if (typeof(this.progoperator[step]) != 'undefined') {
         var OpFunc = this.progoperator[step];
-        //alert('breakdown'+step)
-        //alert(this.progoperands[step]);   // This stuff is like the code for 'seq'
         return OpFunc(this, this.progoperands[step]);
     } else {
-        //alert('do'+step)
         var a = new AmbiExprStack(this);
-        //alert(typeof(this.prog[step]));
         a.eval(this.prog[step])
         return a.topval();
     }
