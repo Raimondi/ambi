@@ -166,6 +166,7 @@ $j(document).ready(function () {
         $j('#unittestsresults tr:last').after(dounittest(17, 'For without all five expressions', '// Enumerate the first 10 square numbers;for;  1 $i =;  $i 11 <;  1 $i +=;  $i sq .;  ', '{}', '{"Results":["AmbiError: \'for\' doesn\'t have all 5 expressions."],"Vars":{}}'));
         $j('#unittestsresults tr:last').after(dounittest(18, 'Mixed case should not confuse things.', 'FUNCTion; INNER-ROOT3; IF; IMPORT $N = IMPORT $PREV = $PREV $N $PREV SQ / + .5 * $GUESS = $GUESS $PREV - ABS .000000001 >; $guess $n inner-root3 $guess =; $guess export;function; root3; import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
         $j('#unittestsresults tr:last').after(dounittest(19, 'Two functions one which calls the other.', 'function; inner-root3;  if;    import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 >;    $guess $n inner-root3 $guess =;    $guess export;function; root3;  import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(20, 'Undefined operator', '1 2 supercalifragilisticexpialidocious .', '{}', '{"Results":["AmbiError: \'supercalifragilisticexpialidocious\' is an undefined operator"],"Vars":{}}'));
 
 
         $j('#unittestsresults').before('<p class="unittestresult">' + TestSuccess / TestCount * 100 + '% Pass Rate</p>')
