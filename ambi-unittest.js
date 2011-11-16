@@ -120,7 +120,7 @@ $j(document).ready(function () {
             $j('#clearvars').hide();
         }
         // create this program as a unit test case
-        $j('#newunittest').text("        $j('#unittestsresults tr:last').after( dounittest( 9999, 'Description', '" + $j('#source').val().replace(/(\r\n|\n|\r)/gm, "") + "', '" + JSON.stringify(Vars) + "', '" + JSON.stringify(res).replace(/'/g, "\\'") + "'));\n")
+        $j('#newunittest').text("        $j('#unittestsresults tr:last').after(dounittest(9999, 'Description', '" + $j('#source').val().replace(/(\r\n|\n|\r)/gm, "") + "', '" + JSON.stringify(Vars) + "', '" + JSON.stringify(res).replace(/'/g, "\\'") + "'));\n")
         // 
     });
     $j('#source').focus().select();
@@ -154,12 +154,18 @@ $j(document).ready(function () {
         $j('#unittestsresults tr:last').after(dounittest(5, 'For with Comment', '// Enumerate the first 10 square numbers;for;  1 $i =;  $i 11 <;  1 $i +=;  $i sq .;  ;', '{}', '{"Results":[1,4,9,16,25,36,49,64,81,100],"Vars":{"$i":11}}'));
         $j('#unittestsresults tr:last').after(dounittest(6, 'Define and use function', '// Calculate Area Of Circle ;function; areaofcircle;  pi import sq product export;5 areaofcircle . ', '{}', '{"Results":[78.53981633974483],"Vars":{}}'));
         $j('#unittestsresults tr:last').after(dounittest(7, 'Define and use multiple functions', 'function; inner-root3;  if;    import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 >;    $guess $n inner-root3 $guess =;    $guess export;function; root3;  import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
-        $j('#unittestsresults tr:last').after(dounittest(8, 'Variable without Value', '1 $a + .', '{}', '{"Results":["\'$a\' doesn\'t have a value."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(8, 'Variable without Value', '1 $a + .', '{}', '{"Results":["AmbiError: \'$a\' doesn\'t have a value."],"Vars":{}}'));
         $j('#unittestsresults tr:last').after(dounittest(9, 'For Loop', '// Function to Enumerate N numbers starting with M;function; generate;for;  import $count = import $start = $start $i =;  $i $start $count + <;  1 $i +=;  $i export;  ;1 10 generate ..', '{}', '{"Results":[1,2,3,4,5,6,7,8,9,10],"Vars":{}}'));
         $j('#unittestsresults tr:last').after(dounittest(10, 'Ifelse, import, export', 'function; ! ;  ifelse;    import $n = $n 1 eq;    1 export;    $n 1 - ! $n * export;    ;// Use the function ;5 ! .', '{}', '{"Results":[120],"Vars":{}}'));
-        $j('#unittestsresults tr:last').after( dounittest(11, 'Basic Addition - Polish', '. +  1 2', '{}', '{"Results":[3],"Vars":{}}'));
-        $j('#unittestsresults tr:last').after( dounittest(12, 'Factorial Function (Postfix version)', '// Factorial Function (Postfix version);. ! 6 ;// Define the function ;    ;    $n 1 - ! $n * export;    1 export;    import $n = $n 1 eq;  ifelse;! ; function ', '{}', '{"Results":[720],"Vars":{}}'));
-
+        $j('#unittestsresults tr:last').after(dounittest(11, 'Basic Addition - Polish', '. +  1 2', '{}', '{"Results":[3],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(12, 'Factorial Function (Postfix version)', '// Factorial Function (Postfix version);. ! 6 ;// Define the function ;    ;    $n 1 - ! $n * export;    1 export;    import $n = $n 1 eq;  ifelse;! ; function ', '{}', '{"Results":[720],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(13, 'Function with name but no expression.', 'function; abc;', '{}', '{"Results":["AmbiError: Function doesn\'t have a name plus an expression."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(14, 'Multiple expressions to evaluate.', ' 1 2 + . ;  1 2 + . ;', '{}', '{"Results":["AmbiError: There is more than one expression to evaluate."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(15, 'Function without name or expression.', 'function', '{}', '{"Results":["AmbiError: Function doesn\'t have a name plus an expression."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(16, 'Function definition without expression to evaluate.', 'function; ab ; 1 ', '{}', '{"Results":["AmbiError: There is no expression to evaluate."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(17, 'For without all five expressions', '// Enumerate the first 10 square numbers;for;  1 $i =;  $i 11 <;  1 $i +=;  $i sq .;  ', '{}', '{"Results":["AmbiError: \'for\' doesn\'t have all 5 expressions."],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(18, 'Mixed case should not confuse things.', 'FUNCTion; INNER-ROOT3; IF; IMPORT $N = IMPORT $PREV = $PREV $N $PREV SQ / + .5 * $GUESS = $GUESS $PREV - ABS .000000001 >; $guess $n inner-root3 $guess =; $guess export;function; root3; import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
+        $j('#unittestsresults tr:last').after(dounittest(19, 'Two functions one which calls the other.', 'function; inner-root3;  if;    import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 >;    $guess $n inner-root3 $guess =;    $guess export;function; root3;  import dup inner-root3 export ;100 root3 .', '{}', '{"Results":[4.641588833420129],"Vars":{}}'));
 
 
         $j('#unittestsresults').before('<p class="unittestresult">' + TestSuccess / TestCount * 100 + '% Pass Rate</p>')
