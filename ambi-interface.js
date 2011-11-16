@@ -111,7 +111,7 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
 var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf parameter is varname, second is value
     outstr = '';
     //alert(Vars);
-    for (key in TopStackVal) {
+    for (key in TopStackVal.reverse()) {
         if (TopStackVar[key]) {
             outstr += sprintf('%s', TopStackVar[key])+'\t';
         } else { 
