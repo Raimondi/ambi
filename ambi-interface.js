@@ -96,7 +96,7 @@ var showvars = function (pretext, varformat, posttext, ambiVars) { // first spri
         }
         return outstr;
     }
-var shownllist = function (ambiResults) { // first sprintf parameter is varname, second is value
+var shownllist = function (ambiResults,prefix) { // first sprintf parameter is varname, second is value
     outstr = '';
     //alert(Vars);
     for (key in ambiResults) {
@@ -106,7 +106,7 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
             outstr += 'Undefined\n';
         }
     }
-    return outstr==''?'':'\nPrinted(by . or ..):\n'+outstr;
+    return outstr==''?'':prefix+outstr;
 }
 var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf parameter is varname, second is value
     outstr = '';
@@ -133,8 +133,9 @@ var execanddisplay = function() {
     Vars = res['Vars']
     updatevars();
     $j('#stack').text(
+        shownllist(res['Errors'],'')+
         stacknllist(res['TopStackVal'],res['TopStackVar'])+
-        shownllist(res['Results'])+
+        shownllist(res['Results'],'\nPrinted(by . or ..):\n')+
         showvars('\nVariables:\n', '%s: %s\n', '', Vars)
         );
     $j.jStorage.set("ambiVars", Vars);

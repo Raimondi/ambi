@@ -653,6 +653,7 @@ function AmbiProgStack(ambiVars) {
     this.VarsStack = new Array();
     this.Vars = ambiVars;
     this.Results = new Array();
+    this.Errors = new Array();
 }
 // ProgOperators
 AmbiProgStack.prototype.OpList = Array();
@@ -839,9 +840,10 @@ function ambieval(ambitext, ambiVars) {
     try {
         b.eval();
     } catch (err) {
-        b.Results.push(err)
+        b.Errors.push(err)
     }
     return {
+        'Errors': b.Errors,
         'Results': b.Results,
         'Vars': b.Vars,
         'TopStackVal': b.TopStackVal,
