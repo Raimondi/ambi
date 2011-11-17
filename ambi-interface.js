@@ -111,12 +111,14 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
 var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf parameter is varname, second is value
     outstr = '';
     //alert(Vars);
-    for (key in TopStackVal.reverse()) {
-        if (TopStackVar[key]) {
-            outstr += sprintf('%s', TopStackVar[key])+'\t';
+    var revTopStackVal = TopStackVal.reverse();
+    var revTopStackVar = TopStackVar.reverse();
+    for (key in revTopStackVal) {
+        if (revTopStackVar[key]) {
+            outstr += sprintf('%s', revTopStackVar[key])+'\t';
         } else { 
-            if (TopStackVal[key]) {
-                outstr += sprintf('%s', TopStackVal[key]) + '\t';
+            if (revTopStackVal[key]) {
+                outstr += sprintf('%s', revTopStackVal[key]) + '\t';
             } else {
                 outstr += 'Undefined\n';
             }
@@ -127,20 +129,25 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
 var execanddisplay = function() {
     res = ambieval($j('#source').val(), Vars);
     $j('#result').text(shownllist(res['Results']));
+    Vars = res['Vars']
+    updatevars();
     $j('#stack').text(stacknllist(res['TopStackVal'],res['TopStackVar']));
-    $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', res['Vars']));
-    if (!$j.isEmptyObject(res['Vars'])) {
+    $j.jStorage.set("ambiVars", Vars);
+
+}
+var updatevars = function() {
+        $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', Vars));
+    if (!$j.isEmptyObject(Vars)) {
         $j('#clearvars').show();
     } else {
         $j('#clearvars').hide();
     }
-
 }
-
-var Vars = {};
+var Vars = {}
 $j = jQuery.noConflict();
     $j(document).ready(function () {
-    $j('#clearvars').hide();
+    Vars = $j.jStorage.get("ambiVars", {});
+    updatevars();
     $j('#result').focus(
     function () {
         execanddisplay();
@@ -166,6 +173,7 @@ $j = jQuery.noConflict();
     function () {
         $j('#vars').html('');
         Vars = {};
+        $j.jStorage.set("ambiVars", Vars);
         $j('#clearvars').hide();
         return false;
     });
