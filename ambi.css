@@ -7,14 +7,14 @@
 		border: 1px dashed #FFD026;
 		width: 100%;
 	}
-	#result {
-		background: #D8DAFF;
-		border: 1px dashed #2634FF;
+	#stack {
+		background-color:#FFFae8;
+		border: 1px dashed #FFD026;
 		width: 100%;
 	}
-	#stack {
-		background: #dadada;
-		border: 1px dashed black;
+	#result {
+		background-color:#FFFff8;
+		border: 1px dashed #FFD026;
 		width: 100%;
 	}
 	#vars {
