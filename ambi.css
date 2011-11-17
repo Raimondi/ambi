@@ -71,3 +71,38 @@
 		padding: 2px 1em;
 		color: black;
 	}
+	a.ambikbd:hover {
+	    background-color: #FFED88; 
+	}
+	a.ambikbd {
+	    -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        /*border: black 1px solid;*/
+        margin: 3px;
+        padding: 2px;
+        background-color: #d0d0d0;
+        color: black;
+        line-height: 1.5em;
+        white-space:nowrap;
+
+	}
+	td {
+	    vertical-align: top;
+	}
+	td#workingresults {
+	    width: 10%;
+        white-space:nowrap;
+	}
+    table#overview {
+        width:100%;
+    }
+	td#iocolumn {
+	    width: 90%;
+	}
+	div#virtualkbd div {
+	float: left;
+	width: 9em;
+	margin-left: 1ex;
+	}

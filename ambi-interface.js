@@ -100,7 +100,7 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
     outstr = '';
     //alert(Vars);
     for (key in ambiResults) {
-        if (ambiResults[key]) {
+        if (typeof(ambiResults[key])!='undefined') {
             outstr += sprintf('%s', ambiResults[key]) + '\t';
         } else {
             outstr += 'Undefined\n';
@@ -114,11 +114,11 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
     var revTopStackVal = TopStackVal.reverse();
     var revTopStackVar = TopStackVar.reverse();
     for (key in revTopStackVal) {
-        if (revTopStackVar[key]) {
-            outstr += sprintf('%s', revTopStackVar[key])+'\t';
+        if (typeof(revTopStackVar[key])!="undefined") {
+            outstr += sprintf('%s', revTopStackVar[key])+'\n';
         } else { 
-            if (revTopStackVal[key]) {
-                outstr += sprintf('%s', revTopStackVal[key]) + '\t';
+            if (typeof(revTopStackVal[key])!="undefined") {
+                outstr += sprintf('%s', revTopStackVal[key]) + '\n';
             } else {
                 outstr += 'Undefined\n';
             }
@@ -145,6 +145,33 @@ var updatevars = function() {
 }
 var Vars = {}
 $j = jQuery.noConflict();
+$j.fn.extend({
+    insertAtCaret: function(myValue){ // from http://stackoverflow.com/questions/946534/insert-text-into-textarea-with-jquery/946556#946556
+      return this.each(function(i) {
+        if (document.selection) {
+          //For browsers like Internet Explorer
+          this.focus();
+          sel = document.selection.createRange();
+          sel.text = myValue;
+          this.focus();
+        }
+        else if (this.selectionStart || this.selectionStart == '0') {
+          //For browsers like Firefox and Webkit based
+          var startPos = this.selectionStart;
+          var endPos = this.selectionEnd;
+          var scrollTop = this.scrollTop;
+          this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+          this.focus();
+          this.selectionStart = startPos + myValue.length;
+          this.selectionEnd = startPos + myValue.length;
+          this.scrollTop = scrollTop;
+        } else {
+          this.value += myValue;
+          this.focus();
+        }
+      })
+    }
+    });
     $j(document).ready(function () {
     Vars = $j.jStorage.get("ambiVars", {});
     updatevars();
@@ -154,7 +181,7 @@ $j = jQuery.noConflict();
     });
     $j('#source').keyup(
     function(event) {
-        if (event.keyCode == 32 || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 190) {
+        if (event.keyCode == 46 || event.keyCode == 32 || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 190) {
             execanddisplay();
         }
     });
@@ -168,8 +195,33 @@ $j = jQuery.noConflict();
         $j('#source').focus().select();
         //$j('#result').focus().select();
     });
+    $j('#showkbd').click(
+    function () {
+        $j('#virtualkbd').toggle();
+        $j('#showkbd').toggle();
+        $j('#hidekbd').toggle();
+    });
+    $j('#hidekbd').click(
+    function () {
+        $j('#virtualkbd').toggle();
+        $j('#showkbd').toggle();
+        $j('#hidekbd').toggle();
+    });
+    $j('#virtualkbd').toggle();
+    $j('#hidekbd').toggle();
+    $j('.ambikbd').click(
+    function () {
+        var padding = '';
+        if ($j(this).attr('title').slice(0,6) != 'Keypad' ) {
+            padding = ' ';
+        }
+        var input = $j(this).html();
+        if (input == 'Space') input = ' ';
+        $j("#source").insertAtCaret(padding+input+padding); //
+        execanddisplay();
+        return false;
+    });
     $j('#clearvars').click(
-
     function () {
         $j('#vars').html('');
         Vars = {};
