@@ -101,12 +101,12 @@ var shownllist = function (ambiResults) { // first sprintf parameter is varname,
     //alert(Vars);
     for (key in ambiResults) {
         if (typeof(ambiResults[key])!='undefined') {
-            outstr += sprintf('%s', ambiResults[key]) + '\t';
+            outstr += sprintf('%s', ambiResults[key]) + '\n';
         } else {
             outstr += 'Undefined\n';
         }
     }
-    return outstr;
+    return outstr==''?'':'\nPrinted(by . or ..):\n'+outstr;
 }
 var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf parameter is varname, second is value
     outstr = '';
@@ -127,16 +127,19 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
     return outstr;
 }
 var execanddisplay = function() {
+    $j.jStorage.set("ambisource", $j('#source').val())
     res = ambieval($j('#source').val(), Vars);
     $j('#result').text(shownllist(res['Results']));
     Vars = res['Vars']
     updatevars();
-    $j('#stack').text(stacknllist(res['TopStackVal'],res['TopStackVar']));
+    $j('#stack').text(
+        stacknllist(res['TopStackVal'],res['TopStackVar'])+
+        shownllist(res['Results'])+
+        showvars('\nVariables:\n', '%s: %s\n', '', Vars)
+        );
     $j.jStorage.set("ambiVars", Vars);
-
 }
 var updatevars = function() {
-        $j('#vars').html(showvars('<table id="varlist">', '<tr><td>%s</td><td>%s</td></tr>', '</table>', Vars));
     if (!$j.isEmptyObject(Vars)) {
         $j('#clearvars').show();
     } else {
@@ -200,15 +203,25 @@ $j.fn.extend({
         $j('#virtualkbd').toggle();
         $j('#showkbd').toggle();
         $j('#hidekbd').toggle();
+        $j.jStorage.set("ambishowkbd", true);
+        return false;
     });
     $j('#hidekbd').click(
     function () {
         $j('#virtualkbd').toggle();
         $j('#showkbd').toggle();
         $j('#hidekbd').toggle();
+        $j.jStorage.set("ambishowkbd", false);
+        return false;
     });
-    $j('#virtualkbd').toggle();
-    $j('#hidekbd').toggle();
+    if ($j.jStorage.get("ambishowkbd", false)) {
+        $j('#showkbd').toggle();
+    } else {
+        $j('#virtualkbd').toggle();
+        $j('#hidekbd').toggle();
+    };
+    $j('#source').text($j.jStorage.get("ambisource", ''));
+    execanddisplay();
     $j('.ambikbd').click(
     function () {
         var padding = '';
@@ -223,10 +236,9 @@ $j.fn.extend({
     });
     $j('#clearvars').click(
     function () {
-        $j('#vars').html('');
         Vars = {};
         $j.jStorage.set("ambiVars", Vars);
-        $j('#clearvars').hide();
+        execanddisplay();
         return false;
     });
 });
