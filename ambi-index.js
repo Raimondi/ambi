@@ -96,12 +96,27 @@ var showvars = function (pretext, varformat, posttext, ambiVars) { // first spri
         }
         return outstr;
     }
+var shownlerrors = function (ambiErrors) { // first sprintf parameter is varname, second is value
+    outstr = '';
+    //alert(Vars);
+    for (key in ambiErrors) {
+        if (typeof(ambiErrors[key])!='undefined') {
+            if (ambiErrors[key] != 'AmbiError: There is no expression to evaluate.')  {
+                outstr += ambiErrors[key] + '\n';
+            }
+        } else {
+            outstr += 'Undefined\n';
+        }
+    }
+    return outstr;
+}
+
 var shownllist = function (ambiResults,prefix) { // first sprintf parameter is varname, second is value
     outstr = '';
     //alert(Vars);
     for (key in ambiResults) {
         if (typeof(ambiResults[key])!='undefined') {
-            outstr += sprintf('%s', ambiResults[key]) + '\n';
+            outstr += ambiResults[key].toPrecision(15).replace(/\.0*$/, '').replace(/(\.[^0]*)0*$/, '$1') + '\n';
         } else {
             outstr += 'Undefined\n';
         }
@@ -115,10 +130,10 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
     var revTopStackVar = TopStackVar.reverse();
     for (key in revTopStackVal) {
         if (typeof(revTopStackVar[key])!="undefined") {
-            outstr += sprintf('%s', revTopStackVar[key])+'\n';
+            outstr += revTopStackVar[key]+'\n';
         } else { 
             if (typeof(revTopStackVal[key])!="undefined") {
-                outstr += sprintf('%s', revTopStackVal[key]) + '\n';
+                outstr += revTopStackVal[key].toPrecision(15).replace(/\.[0]*$/, '').replace(/(\.[^0]*)0*$/, '$1') + '\n';
             } else {
                 outstr += 'Undefined\n';
             }
@@ -128,17 +143,18 @@ var stacknllist = function (TopStackVal, TopStackVar) { // first sprintf paramet
 }
 var execanddisplay = function() {
     $j.jStorage.set("ambisource", $j('#source').val())
-    res = ambieval($j('#source').val(), Vars);
-    $j('#result').text(shownllist(res['Results']));
+    $j.jStorage.set("ambifunctions", $j('#functions').val())
+    res = ambieval($j('#functions').val()+$j('#source').val(), Vars);
     Vars = res['Vars']
     updatevars();
-    $j('#stack').text(
-        shownllist(res['Errors'],'')+
+    $j('#stack').val(
+        shownlerrors(res['Errors'],'')+
         stacknllist(res['TopStackVal'],res['TopStackVar'])+
-        shownllist(res['Results'],'\nPrinted(by . or ..):\n')+
+        shownllist(res['Results'],'\nPrinted Results:\n')+
         showvars('\nVariables:\n', '%s: %s\n', '', Vars)
         );
     $j.jStorage.set("ambiVars", Vars);
+
 }
 var updatevars = function() {
     if (!$j.isEmptyObject(Vars)) {
@@ -179,10 +195,6 @@ $j.fn.extend({
     $j(document).ready(function () {
     Vars = $j.jStorage.get("ambiVars", {});
     updatevars();
-    $j('#result').focus(
-    function () {
-        execanddisplay();
-    });
     $j('#source').keyup(
     function(event) {
         if (event.keyCode == 46 || event.keyCode == 32 || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 190) {
@@ -194,8 +206,8 @@ $j.fn.extend({
     $j('code.ambi').click(
 
     function () {
-        //$j('#source').text($j(this).text());
-        document.runform.source.value = $j(this).text()
+        //$j('#source').val($j(this).val());
+        document.runform.source.value = $j(this).val()
         $j('#source').focus().select();
         //$j('#result').focus().select();
     });
@@ -221,7 +233,10 @@ $j.fn.extend({
         $j('#virtualkbd').toggle();
         $j('#hidekbd').toggle();
     };
-    $j('#source').text($j.jStorage.get("ambisource", ''));
+    $j('#functions').val($j.jStorage.get("ambifunctions", 'function; areaofcircle; // r; pi import sq product export;\nfunction; perimeterofcircle; // r ; pi import 2 product export;'));
+    $j('#source').val($j.jStorage.get("ambisource", ''));
+    $j('#functions').attr('spellcheck', 'false');
+    $j('#source').attr('spellcheck', 'false');
     execanddisplay();
     $j('.ambikbd').click(
     function () {
@@ -242,4 +257,41 @@ $j.fn.extend({
         execanddisplay();
         return false;
     });
+    $j('.eg').click(
+    function () {
+        var code;
+        $j('#source').val(egtext($j(this).html()));
+        execanddisplay();
+        if ( !$j.browser.msie ) $j('#source').setSelection($j('#source').val().length).focus(); 
+        return false;
+    });
+   $j('#clear').click(
+    function () {
+        $j('#source').val('');
+        execanddisplay();
+        $j('#source').focus() // focus with cursor at end of field
+        return false;
+    });
+    $j('.eg').mouseover(
+    function () {
+       $j(this).attr('title',egtext($j(this).html()));
+        return false;
+    });
 });
+var egtext = function(egno) {
+    var code;
+    switch(egno)
+    {
+        case "#1": code = '1 2 +'; break;
+        case "#2": code = '// #2 <--- Notice that the results of the calculation are shown in the "Results" column. //;\n3 5 * 45 + '; break;
+        case "#3": code = '// #3 Press the backspace key and watch Ambi recalculate the shorter expressions. ;\n3 5 * 45 + '; break;
+        case "#4": code = '// #4 Add further numbers and then mathematical operators (e.g. -,sqrt,sin, ...)and watch Ambi recalculate the longer expressions. //;\n3 5 * 45 + '; break;
+        case "#5": code = '// #5 Click "Show Virtual Keyboard" for help with what operators are available.;\n11 13  - '; break;
+        case "#6": code = '// #6 Comments begin or end with a //;\n// Expressions and comments are terminated by a ;\n7 11 / sqrt '; break;
+        case "#7": code = '// #7 All calculations are performed in your browser;\n// Once Ambi is loaded, it doesn\'t use the internet connection.;\n// Ambi stores the state of the current calculation in your browser\'s local storage.;\n13 17 *'; break;
+        case "#8": code = '// #8 The "." command will print the lastest calculation.;\n// The ".." command will print all the values;\n12.31 76.34 54.12 11.98 .. sum . \n'; break;
+        case "#9": code = '// #9 "My Ambi Functions" are also available for use just like any other function.;\n// For example, a function to calculate the area of a circle is defined below.;\n10 . areaofcircle . '; break;
+        default: code = '// Unknown example.'
+    }
+    return code;
+}

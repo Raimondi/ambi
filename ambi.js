@@ -138,6 +138,13 @@ AmbiExprStack.prototype.AmbiSwap = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("swap");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSwap);
+// drop - Operator
+AmbiExprStack.prototype.AmbiDrop = function (that) {
+    that.popval();
+}
+AmbiExprStack.prototype.OpList.push("drop");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDrop);
+
 // unary - Operator
 AmbiExprStack.prototype.AmbiUM = function (that) {
     a = that.popval();
@@ -456,10 +463,11 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiIMPORT);
 AmbiExprStack.prototype.AmbiEXPORT = function (that) {
     var ImportStackval;
     var ImportStackvar;
+    var Undefined;
     ImportStackval = that.ProgStack.UDFStackval.pop();
     ImportStackvar = that.ProgStack.UDFStackvar.pop();
     ImportStackval.push(that.popval());
-    ImportStackvar.push("");
+    ImportStackvar.push(Undefined);
     that.ProgStack.UDFStackval.push(ImportStackval);
     that.ProgStack.UDFStackvar.push(ImportStackvar);
 }
@@ -837,10 +845,12 @@ AmbiProgStack.prototype.AmbiProgExprise = function (exprstring) {
 function ambieval(ambitext, ambiVars) {
     var b = new AmbiProgStack(ambiVars);
     b.AmbiProgExprise(ambitext);
-    try {
-        b.eval();
-    } catch (err) {
-        b.Errors.push(err)
+    if (ambitext.trim()!='') {
+        try {
+            b.eval();
+        } catch (err) {
+            b.Errors.push(err)
+        }
     }
     return {
         'Errors': b.Errors,

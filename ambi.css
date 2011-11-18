@@ -7,14 +7,14 @@
 		border: 1px dashed #FFD026;
 		width: 100%;
 	}
-	#stack {
-		background-color:#FFFae8;
-		border: 1px dashed #FFD026;
+	#functions {
+		background-color:#F8f8f8;
+		border: 1px dashed gray;
 		width: 100%;
 	}
-	#result {
-		background-color:#FFFff8;
-		border: 1px dashed #FFD026;
+	#stack {
+		background-color:#FFFfff;
+		border: 1px dashed #FFffff;
 		width: 100%;
 	}
 	#vars {
@@ -27,11 +27,11 @@
 		margin: 0px;
 		padding: 0;
 		font-size: 24px;
-		color: #0300B2;
+		color: #7785FF;
 	}
 	h2, h3, h4 {
 		margin: .5ex;
-		color:  #0300B2;
+		color:  #7785FF;
 		clear: both;
 		
 	}
@@ -96,14 +96,15 @@
 	    padding: 1ex;
 	}
 	td#workingresults {
-	    width: 10%;
-        white-space:nowrap;
+	    width: 20ex;
+	    white-space:nowrap;
+        
 	}
     table#overview {
         width:100%;
     }
 	td#iocolumn {
-	    width: 90%;
+	    width: auto;
 	}
 	div#virtualkbd div {
 	float: left;
