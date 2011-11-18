@@ -109,6 +109,13 @@ AmbiExprStack.prototype.AmbiDiv = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("/");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiDiv);
+// inv Operator
+AmbiExprStack.prototype.AmbiINV = function (that) {
+    a = that.popval();
+    that.push(1 / a);
+}
+AmbiExprStack.prototype.OpList.push("inv");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiINV);
 // - Operator
 AmbiExprStack.prototype.AmbiMod = function (that) {
     a = that.popval();
@@ -182,6 +189,18 @@ AmbiExprStack.prototype.AmbiSQ = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("sq");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSQ);
+// pow Operator
+AmbiExprStack.prototype.AmbiPOW = function (that) {
+    a = that.popval();
+    b = that.popval();
+    if (that.rpn) {
+        that.push(Math.pow(b, a));
+    } else {
+        that.push(Math.pow(a, b));
+    }
+}
+AmbiExprStack.prototype.OpList.push("pow");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiPOW);
 // abs Operator
 AmbiExprStack.prototype.AmbiABS = function (that) {
     a = that.popval();
@@ -196,6 +215,13 @@ AmbiExprStack.prototype.AmbiLN = function (that) {
 }
 AmbiExprStack.prototype.OpList.push("ln");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiLN);
+// exp Operator
+AmbiExprStack.prototype.AmbiEXP = function (that) {
+    a = that.popval();
+    that.push(Math.exp(a));
+}
+AmbiExprStack.prototype.OpList.push("exp");
+AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiEXP);
 //
 // Boolean Operators
 //
@@ -449,6 +475,9 @@ AmbiExprStack.prototype.OpList.push("atan");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiATAN);
 // Import Export
 AmbiExprStack.prototype.AmbiIMPORT = function (that) {
+    if (that.ProgStack.UDFStackval.length<1) { 
+        throw "AmbiError: import - Empty Expression Stack.";
+    }
     var ImportStackval;
     var ImportStackvar;
     ImportStackval = that.ProgStack.UDFStackval.pop();
@@ -461,6 +490,9 @@ AmbiExprStack.prototype.AmbiIMPORT = function (that) {
 AmbiExprStack.prototype.OpList.push("import");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiIMPORT);
 AmbiExprStack.prototype.AmbiEXPORT = function (that) {
+    if (that.len()<1) { 
+        throw "AmbiError: export - Empty Expression Stack.";
+    }
     var ImportStackval;
     var ImportStackvar;
     var Undefined;
@@ -476,6 +508,9 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiEXPORT);
 // Aggregate Operations
 // sum
 AmbiExprStack.prototype.AmbiSum = function (that) {
+    if (that.len()<1) { 
+        throw "AmbiError: sum - Empty Expression Stack.";
+    }
     total = 0;
     entries = that.allval();
     for (var i = 0; i < entries.length; i++) {
@@ -487,6 +522,9 @@ AmbiExprStack.prototype.OpList.push("sum");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSum);
 // sum of squares
 AmbiExprStack.prototype.AmbiSumSq = function (that) {
+    if (that.len()<1) { 
+        throw "AmbiError: sumsq - Empty Expression Stack.";
+    }
     total = 0;
     entries = that.allval();
     for (var i = 0; i < entries.length; i++) {
@@ -498,6 +536,9 @@ AmbiExprStack.prototype.OpList.push("sumsq");
 AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiSumSq);
 AmbiExprStack.prototype.AmbiProduct = function (that) {
     total = 1;
+    if (that.len()<1) { 
+        throw "AmbiError: product - Empty Expression Stack.";
+    }
     entries = that.allval();
     for (var i = 0; i < entries.length; i++) {
         total *= entries[i];
@@ -761,6 +802,14 @@ AmbiProgStack.prototype.push = function (newItem) {
 AmbiProgStack.prototype.len = function () {
     return this.stack.length;
 }
+AmbiProgStack.prototype.UDFExists = function (searchStr) {
+    for (var i = 0; i < this.UDFList.length; i++) {
+        if (this.UDFList[i] === searchStr.trim()) {
+            return true;
+        }
+    }
+    return false;
+}
 AmbiProgStack.prototype.eval = function () {
     var outstr = '';
     var cleanprog = new Array();
@@ -793,7 +842,14 @@ AmbiProgStack.prototype.eval = function () {
             if (this.len()<2) { 
                 throw "AmbiError: Function doesn't have a name plus an expression."
             }
-            this.UDFList.push(this.prog[this.pop()]);
+            var funcname = this.prog[this.pop()];
+            if (!isNaN(parseFloat(funcname))) {
+                throw "AmbiError: Function name (\'"+funcname+"\') may not start with a number.";
+            }
+            if (this.UDFExists(funcname)) {
+                throw "AmbiError: Function name \'"+funcname+"\' is already defined.";
+            }
+            this.UDFList.push(funcname);
             this.UDFEntryStep.push(this.pop());
         } else {
             FuncDets = this.AmbiFunc(expr);
