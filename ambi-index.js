@@ -233,7 +233,7 @@ $j.fn.extend({
         $j('#virtualkbd').toggle();
         $j('#hidekbd').toggle();
     };
-    $j('#functions').val($j.jStorage.get("ambifunctions", 'function; areaofcircle; // r; pi import sq product export;\nfunction; perimeterofcircle; // r ; pi import 2 product export;'));
+    $j('#functions').val($j.jStorage.get("ambifunctions", 'function; log; // N Base log; import import ln swap ln / export;\nfunction; areaofcircle; // R areaofcircle ; pi import sq product export;\nfunction; perimeterofcircle; // R areaofcircle ; pi import 2 product export;'));
     $j('#source').val($j.jStorage.get("ambisource", ''));
     $j('#functions').attr('spellcheck', 'false');
     $j('#source').attr('spellcheck', 'false');
@@ -244,7 +244,7 @@ $j.fn.extend({
         if ($j(this).attr('title').slice(0,6) != 'Keypad' ) {
             padding = ' ';
         }
-        var input = $j(this).html();
+        var input = $j(this).text();
         if (input == 'Space') input = ' ';
         $j("#source").insertAtCaret(padding+input+padding); //
         execanddisplay();

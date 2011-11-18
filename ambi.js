@@ -476,7 +476,7 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiATAN);
 // Import Export
 AmbiExprStack.prototype.AmbiIMPORT = function (that) {
     if (that.ProgStack.UDFStackval.length<1) { 
-        throw "AmbiError: import - Empty Expression Stack.";
+        throw "AmbiError: import - Empty Expression Stack or found outside a function.";
     }
     var ImportStackval;
     var ImportStackvar;
@@ -492,6 +492,9 @@ AmbiExprStack.prototype.OpFunc.push(AmbiExprStack.prototype.AmbiIMPORT);
 AmbiExprStack.prototype.AmbiEXPORT = function (that) {
     if (that.len()<1) { 
         throw "AmbiError: export - Empty Expression Stack.";
+    }
+    if(that.ProgStack.UDFStackval.length<1) {
+        throw "AmbiError: export - Only works inside a function.";
     }
     var ImportStackval;
     var ImportStackvar;
