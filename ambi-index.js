@@ -260,9 +260,8 @@ $j.fn.extend({
     $j('.eg').click(
     function () {
         var code;
-        $j('#source').val(egtext($j(this).html()));
+        $j('#source').focus().val(egtext($j(this).html()));
         execanddisplay();
-        if ( !$j.browser.msie ) $j('#source').setSelection($j('#source').val().length).focus(); 
         return false;
     });
    $j('#clear').click(
@@ -282,7 +281,7 @@ var egtext = function(egno) {
     var code;
     switch(egno)
     {
-        case "#1": code = '1 2 +'; break;
+        case "#1": code = '1 2 + '; break;
         case "#2": code = '// #2 <--- Notice that the results of the calculation are shown in the "Results" column. //;\n3 5 * 45 + '; break;
         case "#3": code = '// #3 Press the backspace key and watch Ambi recalculate the shorter expressions. ;\n3 5 * 45 + '; break;
         case "#4": code = '// #4 Add further numbers and then mathematical operators (e.g. -,sqrt,sin, ...)and watch Ambi recalculate the longer expressions. //;\n3 5 * 45 + '; break;
