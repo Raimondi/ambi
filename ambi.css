@@ -133,6 +133,10 @@
     table#overview {
         width:100%;
     }
+    table#overview td {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 	td#iocolumn {
 	    width: auto;
 	}
