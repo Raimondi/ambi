@@ -1,16 +1,37 @@
 	body {
 		font-family: sans-serif;
 		color: #808080;
+		width: 800px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	#source {
-		background-color:#FFF7D8;
+		background-color:#ffffff;
 		border: 1px dashed #FFD026;
 		width: 100%;
+		padding: 5px;
+	    -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        font-family: sans-serif;
+        -moz-box-shadow: 5px 5px 5px #FFBA75;
+        -webkit-box-shadow: 5px 5px 5px #FFBA75;
+        box-shadow: 5px 5px 5px #FFBA75;
 	}
 	#functions {
-		background-color:#F8f8f8;
-		border: 1px dashed gray;
+		background-color:white;
+		border: 1px dashed #FFD026;
 		width: 100%;
+		padding: 5px;
+	    -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        font-family: sans-serif;
+        -moz-box-shadow: 5px 5px 5px #FFBA75;
+        -webkit-box-shadow: 5px 5px 5px #FFBA75;
+        box-shadow: 5px 5px 5px #FFBA75;
 	}
 	#stack {
 		background-color:#FFFfff;
@@ -106,8 +127,25 @@
 	td#iocolumn {
 	    width: auto;
 	}
-	div#virtualkbd div {
-	float: left;
-	width: 9em;
-	margin-left: 1ex;
+	div#virtualkbd table{
+	border-collapse: collapse;
 	}
+	div#virtualkbd table td{
+    padding: 0;
+	}
+	div#virtualkbd {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+    border: #FFD026 1px dashed;
+    padding: 5px;
+    width:100%;
+    -moz-box-shadow: 5px 5px 5px #FFBA75;
+    -webkit-box-shadow: 5px 5px 5px #FFBA75;
+    box-shadow: 5px 5px 5px #FFBA75;
+
+	}
+	
+
+	
