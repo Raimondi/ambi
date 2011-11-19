@@ -1,4 +1,4 @@
-/*
+﻿/*
 Ambi Programming Language 0.6.0 A Reverse Polish (and polish) Notation Calculator and Programming Language
 Copyright (C) 2009-2011  David Pratten david@prattenmail.com
 
@@ -282,12 +282,12 @@ var egtext = function(egno) {
     switch(egno)
     {
         case "#1": code = '1 2 + '; break;
-        case "#2": code = '// #2 <--- Notice that the results of the calculation are shown in the "Results" column. //;\n3 5 * 45 + '; break;
-        case "#3": code = '// #3 Press the backspace key and watch Ambi recalculate the shorter expressions. ;\n3 5 * 45 + '; break;
-        case "#4": code = '// #4 Add further numbers and then mathematical operators (e.g. -,sqrt,sin, ...)and watch Ambi recalculate the longer expressions. //;\n3 5 * 45 + '; break;
-        case "#5": code = '// #5 Click "Show Virtual Keyboard" for help with what operators are available.;\n11 13  - '; break;
+        case "#2": code = '// #2 Notice that the results of the calculation are shown in the "Results" column to the right. //;\n3 5 * 45 + '; break;
+        case "#3": code = '// #3 Press the backspace key and watch Ambi recalculate the shorter expressions. ;\n2 3 + sq '; break;
+        case "#4": code = '// #4 Add further numbers and then mathematical operators (e.g. -,sqrt,sin, ...)and watch Ambi recalculate the longer expressions. //;\n25 sqrt '; break;
+        case "#5": code = '// #5 Click the "Keyboard" icon for help with what operators are available.;\n11 13  - '; break;
         case "#6": code = '// #6 Comments begin or end with a //;\n// Expressions and comments are terminated by a ;\n7 11 / sqrt '; break;
-        case "#7": code = '// #7 All calculations are performed in your browser;\n// Once Ambi is loaded, it doesn\'t use the internet connection.;\n// Ambi stores the state of the current calculation in your browser\'s local storage.;\n13 17 *'; break;
+        case "#7": code = '// #7 All calculations are performed in your browser;\n// Ambi stores the state of the current calculation in your browser\'s local storage.;\n13 17 *'; break;
         case "#8": code = '// #8 The "." command will print the lastest calculation.;\n// The ".." command will print all the values;\n12.31 76.34 54.12 11.98 .. sum . \n'; break;
         case "#9": code = '// #9 "My Ambi Functions" are also available for use just like any other function.;\n// For example, a function to calculate the area of a circle is defined below.;\n10 . areaofcircle . '; break;
         default: code = '// Unknown example.'

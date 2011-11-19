@@ -1,13 +1,13 @@
 	body {
 		font-family: sans-serif;
-		color: #808080;
+		color: #606060;
 		width: 800px;
 		margin-left: auto;
 		margin-right: auto;
 	}
 	#source {
 		background-color:#ffffff;
-		border: 1px dashed #FFD026;
+		border: 1px dashed gray;
 		width: 100%;
 		padding: 5px;
 	    -moz-border-radius: 10px;
@@ -15,13 +15,13 @@
         -khtml-border-radius: 10px;
         border-radius: 10px;
         font-family: sans-serif;
-        -moz-box-shadow: 5px 5px 5px #FFBA75;
-        -webkit-box-shadow: 5px 5px 5px #FFBA75;
-        box-shadow: 5px 5px 5px #FFBA75;
+        -moz-box-shadow: 5px 5px 5px #e0e0e0;
+        -webkit-box-shadow: 5px 5px 5px #e0e0e0;
+        box-shadow: 5px 5px 5px #e0e0e0;
 	}
 	#functions {
 		background-color:white;
-		border: 1px dashed #FFD026;
+		border: 1px dashed gray;
 		width: 100%;
 		padding: 5px;
 	    -moz-border-radius: 10px;
@@ -29,14 +29,23 @@
         -khtml-border-radius: 10px;
         border-radius: 10px;
         font-family: sans-serif;
-        -moz-box-shadow: 5px 5px 5px #FFBA75;
-        -webkit-box-shadow: 5px 5px 5px #FFBA75;
-        box-shadow: 5px 5px 5px #FFBA75;
+        -moz-box-shadow: 5px 5px 5px #e0e0e0;
+        -webkit-box-shadow: 5px 5px 5px #e0e0e0;
+        box-shadow: 5px 5px 5px #e0e0e0;
 	}
 	#stack {
-		background-color:#FFFfff;
-		border: 1px dashed #FFffff;
+		background-color:#FFffff;
+		border: 1px dashed gray;
 		width: 100%;
+		padding: 5px;
+	    -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        font-family: sans-serif;
+        -moz-box-shadow: 5px 5px 5px #e0e0e0;
+        -webkit-box-shadow: 5px 5px 5px #e0e0e0;
+        box-shadow: 5px 5px 5px #e0e0e0;
 	}
 	#vars {
 		width: 100%;
@@ -48,16 +57,16 @@
 		margin: 0px;
 		padding: 0;
 		font-size: 24px;
-		color: #7785FF;
+		color: #7A8EFF;
 	}
 	h2, h3, h4 {
 		margin: .5ex;
-		color:  #7785FF;
+		color:  #7A8EFF;
 		clear: both;
 		
 	}
 	h3, h4 {
-		color:  #7785FF
+		color:  #7A8EFF;
 	}
 	table#io { 
 		width: 100%;
@@ -138,12 +147,12 @@
     -webkit-border-radius: 10px;
     -khtml-border-radius: 10px;
     border-radius: 10px;
-    border: #FFD026 1px dashed;
+    border: gray 1px dashed;
     padding: 5px;
     width:100%;
-    -moz-box-shadow: 5px 5px 5px #FFBA75;
-    -webkit-box-shadow: 5px 5px 5px #FFBA75;
-    box-shadow: 5px 5px 5px #FFBA75;
+    -moz-box-shadow: 5px 5px 5px #e0e0e0;
+    -webkit-box-shadow: 5px 5px 5px #e0e0e0;
+    box-shadow: 5px 5px 5px #e0e0e0;
 
 	}
 	
