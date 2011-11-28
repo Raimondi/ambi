@@ -662,6 +662,11 @@ AmbiExprStack.prototype.eval = function (exprstring) {
                     this.ProgStack.UDFStackvar.push(this.stackvar);
                     this.ProgStack.VarsStack.push(this.ProgStack.Vars);
                     this.ProgStack.Vars = {};
+                    // check time expiry
+                    this.ProgStack.nowmilliseconds = new Date().getTime();
+                    if ((this.ProgStack.nowmilliseconds - this.ProgStack.startmilliseconds)>this.ProgStack.limitmilliseconds ) {
+                        throw "AmbiError: No result. Calculation timed out after " + this.ProgStack.limitmilliseconds / 1000 + " seconds.";
+                    }
                     var res = this.AmbiUDFEXEC(this, OpUDF)
                     this.stackval = this.ProgStack.UDFStackval.pop();
                     this.stackvar = this.ProgStack.UDFStackvar.pop();
@@ -706,6 +711,9 @@ function AmbiProgStack(ambiVars) {
     this.Vars = ambiVars;
     this.Results = new Array();
     this.Errors = new Array();
+    this.nowmilliseconds = new Date().getTime();
+    this.startmilliseconds = new Date().getTime();
+    this.limitmilliseconds = 5000; // milliseconds
 }
 // ProgOperators
 AmbiProgStack.prototype.OpList = Array();
@@ -720,6 +728,11 @@ AmbiProgStack.prototype.AmbiProgDOWHILE = function (that, Operands) {
     that.AmbiExec(Operands[a]);
     do {
         that.AmbiExec(Operands[b]);
+        // check time expiry
+        that.nowmilliseconds = new Date().getTime();
+        if ((that.nowmilliseconds - that.startmilliseconds)>that.limitmilliseconds ) {
+            throw "AmbiError: No result. Calculation timed out after " + that.limitmilliseconds / 1000 + " seconds.";
+        }
     } while (that.AmbiExec(Operands[c]))
     return that.AmbiExec(Operands[d]);
 }
@@ -735,6 +748,11 @@ AmbiProgStack.prototype.AmbiProgWHILEDO = function (that, Operands) {
     that.AmbiExec(Operands[a]);
     while (that.AmbiExec(Operands[b])) {
         that.AmbiExec(Operands[c]);
+        // check time expiry
+        that.nowmilliseconds = new Date().getTime();
+        if ((that.nowmilliseconds - that.startmilliseconds)>that.limitmilliseconds ) {
+            throw "AmbiError: No result. Calculation timed out after " + that.limitmilliseconds / 1000 + " seconds.";
+        }
     }
     return that.AmbiExec(Operands[d]);
 }
@@ -781,6 +799,11 @@ AmbiProgStack.prototype.AmbiProgFOR = function (that, Operands) {
     while (that.AmbiExec(Operands[b])) {
         that.AmbiExec(Operands[d]);
         that.AmbiExec(Operands[c]);
+        // check time expiry
+        that.nowmilliseconds = new Date().getTime();
+        if ((that.nowmilliseconds - that.startmilliseconds)>that.limitmilliseconds ) {
+            throw "AmbiError: No result. Calculation timed out after " + that.limitmilliseconds / 1000 + " seconds.";
+        }
     }
     return that.AmbiExec(Operands[e]);;
 }
@@ -903,19 +926,30 @@ AmbiProgStack.prototype.AmbiProgExprise = function (exprstring) {
 
 function ambieval(ambitext, ambiVars) {
     var b = new AmbiProgStack(ambiVars);
+    var ret = {};
     b.AmbiProgExprise(ambitext);
     if (ambitext.trim()!='') {
         try {
             b.eval();
+            ret.Errors = b.Errors;
+            ret.Results = b.Results;
+            ret.Vars = b.Vars;
+            ret.TopStackVal = b.TopStackVal;
+            ret.TopStackVar = b.TopStackVar;
         } catch (err) {
             b.Errors.push(err)
+            ret.Errors = b.Errors;
+            ret.Results = new Array();
+            ret.Vars = ambiVars; // force no change to Vars
+            ret.TopStackVal = new Array();
+            ret.TopStackVar = new Array();
         }
     }
     return {
-        'Errors': b.Errors,
-        'Results': b.Results,
-        'Vars': b.Vars,
-        'TopStackVal': b.TopStackVal,
-        'TopStackVar': b.TopStackVar
+        'Errors': ret.Errors,
+        'Results': ret.Results,
+        'Vars': ret.Vars,
+        'TopStackVal': ret.TopStackVal,
+        'TopStackVar': ret.TopStackVar
     };
 }
