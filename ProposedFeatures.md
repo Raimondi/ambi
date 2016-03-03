@@ -1,0 +1,3 @@
+# Proposed Features #
+
+  * **Lists**. Syntax proposed as: "**()**" push an empty list onto the top of the stack "**,**" pop the top item, then append this item onto the list that is now on top. If the top item is not a list, it is first coerced into a list. For example the following list **(1,2, ( 3, 4))** would be constructed by the following sequence **() 1 , 2 , () 3 , 4 , ,**  The following sequence would evaluate to the same list: **1 , 2 , () 3 , 4 , ,**  Add a **foreach** construct to process list data.  Add a list **comprehension structure** (a la Python).
