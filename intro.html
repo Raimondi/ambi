@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html class="google ng-scope" ng-app="codesiteArchive.application" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+
+    <!-- https://developers.google.com/webmasters/ajax-crawling/docs/specification -->
+    <meta name="fragment" content="!">
+    <title>Google Code Archive - Long-term storage for Google Code Project Hosting.</title>
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://code.google.com/archive/img/project-hosting.ico">
+    <script src="intro_files/google.js"></script><style type="text/css">
+:root div[style^="height: 16px; font: bold 12px/16px"],
+:root [style="border: 1px solid rgb(51, 102, 204);"],
+:root [style="border: 1px solid rgb(51, 102, 153);"],
+:root [style="border: 1px solid rgb(241, 250, 248);"],
+:root [style="border: 1px solid rgb(145, 117, 77);"],
+:root [style="border: 1px solid rgb(0, 90, 136);"],
+:root .ts[style="margin:0 0 12px;height:92px;width:100%"],
+:root .nH.MC,
+:root .c[style="margin: 0pt;"],
+:root .GISRH3UDHB,
+:root .GGQPGYLCMCB,
+:root .GGQPGYLCD5,
+:root .GC3LC41DERB + div[style="position: relative; height: 170px;"],
+:root #tadsc,
+:root #ad,
+:root .share,
+:root #center_col > #\5f Emc,
+:root #center_col > #main > .dfrd > .mnr-c > .c._oc._zs,
+:root #center_col > #res > #topstuff + #search > div > #ires > #rso > #flun,
+:root #center_col > #resultStats + #tads,
+:root #center_col > #resultStats + #tads + #res + #tads,
+:root #center_col > #resultStats + div + #res + #tads,
+:root #center_col > #resultStats + div[style="border:1px solid #dedede;margin-bottom:11px;padding:5px 7px 5px 6px"],
+:root #center_col > #taw > #tvcap > .rscontainer,
+:root #center_col > div[style="font-size:14px;margin-right:0;min-height:5px"] > div[style="font-size:14px;margin:0 4px;padding:1px 5px;background:#fff8e7"],
+:root #cnt #center_col > #res > #topstuff > .ts,
+:root #cnt #center_col > #taw > #tvcap > .c._oc._Lp,
+:root #main_col > #center_col div[style="font-size:14px;margin:0 4px;padding:1px 5px;background:#fff7ed"],
+:root #mbEnd[cellspacing="0"][cellpadding="0"],
+:root #mclip_container:last-child,
+:root #mn #center_col > div > h2.spon:first-child,
+:root #mn #center_col > div > h2.spon:first-child + ol:last-child,
+:root #mn div[style="position:relative"] > #center_col > ._Ak,
+:root #mn div[style="position:relative"] > #center_col > div > ._dPg,
+:root #resultspanel > #topads,
+:root #rhs_block .mod > .gws-local-hotels__booking-module,
+:root #rhs_block .mod > .luhb-div > div[data-async-type="updateHotelBookingModule"],
+:root #rhs_block > #mbEnd,
+:root #rhs_block > .ts[cellspacing="0"][cellpadding="0"][style="padding:0"],
+:root #rhs_block > ol > .rhsvw > .kp-blk > .xpdopen > ._OKe > ol > ._DJe > .luhb-div,
+:root #rhs_block > script + .c._oc._Ve.rhsvw,
+:root #rhswrapper > #rhssection[border="0"][bgcolor="#ffffff"],
+:root #ssmiwdiv[jsdisplay],
+:root #tads + div + .c,
+:root #tads.c,
+:root #tadsb.c,
+:root #tadsto.c,
+:root #topstuff > #tads,
+:root .GB3L-QEDGY .GB3L-QEDF- > .GB3L-QEDE-,
+:root .GFYY1SVD2 > .GFYY1SVC2 > .GFYY1SVF5,
+:root .GFYY1SVE2 > .GFYY1SVD2 > .GFYY1SVG5,
+:root .GHOFUQ5BG2 > .GHOFUQ5BF2 > .GHOFUQ5BG5,
+:root .GJJKPX2N1 > .GJJKPX2M1 > .GJJKPX2P4,
+:root .GKJYXHBF2 > .GKJYXHBE2 > .GKJYXHBH5,
+:root .GPMV2XEDA2 > .GPMV2XEDP1 > .GPMV2XEDJBB,
+:root .ch[onclick="ga(this,event)"],
+:root .commercial-unit-desktop-rhs,
+:root .commercial-unit-desktop-top,
+:root .commercial-unit-mobile-top,
+:root .lads[width="100%"][style="background:#FFF8DD"],
+:root .mod > ._jH + .rscontainer,
+:root .mw > #rcnt > #center_col > #taw > #tvcap > .c,
+:root .mw > #rcnt > #center_col > #taw > .c,
+:root .ra[align="left"][width="30%"],
+:root .ra[align="right"][width="30%"],
+:root .ra[width="30%"][align="right"] + table[width="70%"][cellpadding="0"],
+:root .rhsvw[style="background-color:#fff;margin:0 0 14px;padding-bottom:1px;padding-top:1px;"],
+:root .rscontainer > .ellip,
+:root .widget-pane-section-result[data-result-ad-type],
+:root #sqh
+{ display: none !important; }</style>
+    <link href="intro_files/maia.css" rel="stylesheet">
+    <link href="intro_files/css.css" rel="stylesheet">
+    <link rel="stylesheet" href="intro_files/archive_css.css">
+    <script>
+      CLOSURE_NO_DEPS = true;
+    </script>
+    <script src="intro_files/angular.js"></script><style type="text/css">@charset "UTF-8";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
+}
+
+.ng-animate-shim {
+  visibility:hidden;
+}
+
+.ng-anchor {
+  position:absolute;
+}
+</style>
+    <script src="intro_files/pagedown.js"></script>
+    <script src="intro_files/archive.js"></script>
+    <!-- base href="https://code.google.com/archive/" -->
+  <link rel="stylesheet" type="text/css" href="intro_files/frame.css"><style type="text/css">
+:root #content > #right > .dose > .dosesingle,
+:root #content > #center > .dose > .dosesingle
+{ display: none !important; }</style><script>try {  for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){    var lastpass_f = document.forms[lastpass_iter];    if(typeof(lastpass_f.lpsubmitorig)=="undefined"){      if (typeof(lastpass_f.submit) == "function") {        lastpass_f.lpsubmitorig = lastpass_f.submit;        lastpass_f.submit = function(){          var form = this;          try {            if (document.documentElement && 'createEvent' in document)            {              var forms = document.getElementsByTagName('form');              for (var i=0 ; i<forms.length ; ++i)                if (forms[i]==form)                {                  var element = document.createElement('lpformsubmitdataelement');                  element.setAttribute('formnum',i);                  element.setAttribute('from','submithook');                  document.documentElement.appendChild(element);                  var evt = document.createEvent('Events');                  evt.initEvent('lpformsubmit',true,false);                  element.dispatchEvent(evt);                  break;                }            }          } catch (e) {}          try {            form.lpsubmitorig();          } catch (e) {}        }      }    }  }} catch (e) {}</script></head>
+
+  <body>
+    <div class="maia-header" id="maia-header" role="banner">
+      <div class="maia-aux">
+        <a href="https://code.google.com/archive/">
+          </a><h1><a href="https://code.google.com/archive/">
+            <img alt="Google" src="intro_files/googlelogo_color_116x41dp.png"> Code</a>
+          </h1>
+        
+        <a href="https://code.google.com/archive/">
+          <h2>
+            Archive
+          </h2>
+        </a>
+        <a class="maia-teleport" href="#content">Skip to content</a>
+        <div class="maia-util">
+          <form action="/archive/search" class="maia-search ng-pristine ng-valid">
+            <input name="q" placeholder="Search this site" type="text">
+            <button class="maia-button">
+              <span class="maia-search-icon">Search</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ngView:  --><div class="ng-scope" ng-view=""><div class="ng-scope" ng-controller="ProjectHomepageCtrl as projectCtrl">
+<nav-bar-widget class="ng-isolate-scope" nav-level-1="projectCtrl.navLevel1"><div class="maia-nav maia-complex" id="maia-nav-x" role="navigation">
+  <div class="maia-aux">
+    <ul>
+      <li class="active" ng-class="{active: navLevel1 == 'projects'}">
+        <a href="https://code.google.com/archive/">Projects</a>
+        <!-- ngIf: navLevel2 -->
+      </li>
+      <li ng-class="{active: navLevel1 == 'search'}">
+        <a href="https://code.google.com/archive/search">Search</a>
+      </li>
+      <li ng-class="{active: navLevel1 == 'about'}">
+        <a href="https://code.google.com/archive/about">About</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav-bar-widget>
+<div id="maia-main" role="main">
+
+  <!-- Left-side resource nav -->
+  <span ng-hide="projectCtrl.project.notFound">
+    <project-resources-widget class="ng-isolate-scope" domain="projectCtrl.domain" project="projectCtrl.projectName"><div class="maia-nav" id="maia-nav-y" role="navigation">
+  <!-- ngIf: domain == 'code.google.com' --><ul class="ng-scope" ng-if="domain == 'code.google.com'">
+    <li class="active">
+      <a href="https://code.google.com/archive/p/ambi/">Project</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/ambi/source">Source</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/ambi/issues">Issues</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/ambi/wikis">Wikis</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/ambi/downloads">Downloads</a>
+    </li>
+  </ul><!-- end ngIf: domain == 'code.google.com' -->
+
+    <!-- ngIf: domain != 'code.google.com' -->
+</div></project-resources-widget>
+  </span>
+
+  <div class="maia-article" role="article">
+    <div class="maia-teleport" id="content"></div>
+    <div class="maia-cols">
+
+      <!-- BUG: We show "no issues" and relaged sub-pages for projects that
+           do not exist. Similarly, if you go to page 1,000,000 it says the
+           project has no issues, despite page 999,999 existing. -->
+      <!-- ngIf: projectCtrl.project.notFound -->
+
+      <div ng-hide="projectCtrl.project.notFound" id="gca-project-header" class="maia-col-10">
+        <img class="gca-project-logo" src="intro_files/logo.dms">
+        <h1 class="ng-binding">ambi</h1>
+      </div>
+
+      <div ng-hide="projectCtrl.project.notFound" class="maia-col-10">
+        <hr>
+
+        <!-- ngIf: projectCtrl.error -->
+
+        <!-- Switch by project resource -->
+        <!-- ngIf: !projectCtrl.error --><div class="ng-scope" ng-if="!projectCtrl.error" ng-switch="projectCtrl.resource">
+
+          <!-- Project -->
+          <!-- ngSwitchWhen: project --><div class="ng-scope" ng-switch-when="project">
+            <!-- ngIf: projectCtrl.project == null -->
+
+            <!-- ngIf: projectCtrl.project.notFound -->
+
+            <!-- ngIf: projectCtrl.project.found --><div class="ng-scope" ng-if="projectCtrl.project.found">
+              <div class="maia-col-6">
+                <p class="maia-meta ng-binding">Ambi Calculator and Programming Language</p>
+                <markdown-widget class="markdown" text="projectCtrl.project.description"><h2>Try out latest version.</h2>
+
+<p><a href="http://www.davidpratten.com/ambi">Ambi Calculator and Programming in your browser</a>.</p>
+
+<p><a href="https://chrome.google.com/webstore/search/ambi%20calculator">*New* Now a Full Screen Chrome App and Chrome Popup Extension</a></p>
+
+<h2>Author</h2>
+
+<p>The Ambi Calculator and Programming Language was created by <a href="http://davidpratten.com/">David Pratten</a>.</p>
+
+<h2>Introduction</h2>
+
+<p>Ambi is a programming language generalised from Reverse Polish 
+Notation arithmetic and an extensible RPN Calculator hosted in the 
+browser. Other languages such as <a href="http://en.wikipedia.org/wiki/Forth_%28programming_language%29">Forth</a> and <a href="http://en.wikipedia.org/wiki/RPL_%28programming_language%29">RPL</a>
+ have similar roots and illustrious histories, but have embraced non-RPN
+ elements as they developed. In contrast, Ambi attempts to stick 
+strictly to the RPN approach. Ambi also has similarities to the <a href="http://en.wikipedia.org/wiki/Cat_%28programming_language%29">CAT</a> language.</p>
+
+<h2>Why "Ambi"</h2>
+
+<p>"Ambi" is named for its ability to be ambidextrous with expressions 
+and programs. Ambi detects and correctly evaluates expressions and 
+programs either in Reverse Polish Notation or in Polish Notation. For 
+example, the following two expressions give the same answer:
+<code>
+3 5 + 2 / .
+</code>
+and
+<code>
+. / + 3 5 2
+</code></p>
+
+<h2>Documentation</h2>
+
+<h3>Expressions</h3>
+
+<p>Expressions are terminated by semi-colons: ";" Each expression starts
+ with a fresh stack. Variables defined in one expression are available 
+in expressions evaluated later. Expressions can be of arbitary length. 
+Empty expressions ";;" are equivalent to ";true;".</p>
+
+<h3>Comments</h3>
+
+<p>Comments are a special kind of expression that begins and/or ends with "//".</p>
+
+<h3>Operators</h3>
+
+<p><em>Ambi operators are not case sensitive.</em></p>
+
+<ul>
+<li>Arithmetic operators include: <strong>+ - <code>*</code> / sq sqrt abs ln floor ceil min max exp inv pow</strong></li>
+<li>The Unary Minus operator is <strong><code>_</code></strong>.</li>
+<li>Aggregate operators include: <strong>sum sumsq product</strong>.</li>
+<li>Boolean operators include: <strong>== eq != &lt;&gt; neq &lt; lt &gt; gt &lt;= lte &gt;= gte &amp;&amp; and || or ! not</strong></li>
+<li>Trigonometry operators (radians) include: <strong>sin cos tan asin acos atan</strong></li>
+<li>The stack operators include <strong>dup swap drop</strong></li>
+<li>The assignment operator is <strong>=</strong></li>
+<li>Compound operators include: <strong>+= -= /= <code>*</code>= ++ <code>--</code></strong></li>
+<li>The <strong>.</strong> or <strong>printtop</strong> operator will print the number on top of the stack. While the <strong>..</strong> or <strong>printall</strong> operator will print the all the numbers in the stack.</li>
+</ul>
+
+<h3>Values</h3>
+
+<p>Booleans are represented by numeric values. Non-zero is True, 0 is False.</p>
+
+<h3>Constants</h3>
+
+<p><strong>true</strong> has value 1. <strong>false</strong> as value 0. The constants <strong>pi</strong> and <strong>e</strong> are available.</p>
+
+<h3>Variables</h3>
+
+<p>Variables are names that start with "$". Examples of valid variable names include: <strong>$a, $5, $count</strong>
+ Variables defined outside functions are preserved between program 
+executions. Variables define inside functions are local to the function.
+ There are no global variables.</p>
+
+<h3>Examples</h3>
+
+<p>Simple Calculation</p>
+
+<p><code>
+// Simple Calculation ; 
+1 2 + 3 + 5 + 7 / .
+</code></p>
+
+<p>Monitor Stack</p>
+
+<p>```</p>
+
+<p>// Show stack values ;
+1 . 2 . + .
+```</p>
+
+<p>Variable Assignment</p>
+
+<p>```</p>
+
+<p>// Variable Assignment and Use ;
+1 $a = 2 $b = $a $b + .
+```</p>
+
+<p>Aggregate Function Example</p>
+
+<p>```</p>
+
+<p>// Area of circle of radius 5 ;
+5 $radius = pi $radius sq product . 
+```</p>
+
+<h3>Multi-expression programs</h3>
+
+<p>Programs may be built up by treating the expressions as lambdas acted on by the: <strong>if ifelse whiledo dowhile</strong> and <strong>function</strong> operators.</p>
+
+<p>The <strong>if</strong> operator executes the second lamda expression
+ on the stack depending on the result of executing the first. And then 
+executes the finalise expression.</p>
+
+<p>```</p>
+
+<p>// if operator ;
+if;
+  23.4 $a = $a floor 23 ==;
+  $a .;
+  ;</p>
+
+<p>```</p>
+
+<p>Equivalently ...</p>
+
+<p>```</p>
+
+<p>// if operator ;
+  ;
+  $a .;
+  23.4 $a = $a floor 23 ==;
+if;
+<code>
+</code>
+if;
+  ;
+  ;
+  ;
+<code>
+</code>
+  ;
+  ;
+  ;
+if;
+```</p>
+
+<p>The <strong>ifelse</strong> operator is similar except that it has an  as well.</p>
+
+<p><code>
+ifelse;
+  &lt;initialise &amp; test expression&gt;;
+  &lt;if true expression&gt;;
+  &lt;if false expression&gt;;
+  &lt;finalise expression&gt;;
+</code>
+<code>
+  &lt;finalise expression&gt;;
+  &lt;if false expression&gt;;
+  &lt;if true expression&gt;;
+  &lt;initialise &amp; test expression&gt;;
+ifelse;
+</code></p>
+
+<p>The <strong>whiledo</strong> operator and <strong>dowhile</strong> operators differ only in that <strong>whiledo</strong> evaluates the test expression before executing the repeated expression while <strong>dowhile</strong> evaluates the repeated expression at least once and then checks the test expression.</p>
+
+<p><em>The reverse polish variants of these operators are not shown here for brevities sake.</em>
+<code>
+whiledo;
+  &lt;initialise expression&gt;;
+  &lt;test expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;finalise expression&gt;;
+</code>
+<code>
+dowhile;
+  &lt;initialise expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;test expression&gt;;
+  &lt;finalise expression&gt;;
+</code></p>
+
+<p>The <strong>for</strong> operator mirror's the C style for construct.</p>
+
+<p><em>The reverse polish variant of this operator is not shown here.</em></p>
+
+<p><code>
+for;
+  &lt;initialise expression&gt;;
+  &lt;test expression&gt;;
+  &lt;increment expression&gt;;
+  &lt;repeated expression&gt;;
+  &lt;finalise expression&gt;;
+</code>
+<code>
+// Enumerate the first 10 square numbers;
+for;
+  1 $i =;
+  $i 11 &lt;;
+  1 $i +=;
+  $i sq .;
+  ;
+</code></p>
+
+<p>Functions are defined using the <strong>function</strong> operator, 
+which binds a lambda expression to a name. The only communication 
+between a function and its calling context is via the <strong>import</strong> and <strong>export</strong> operators. Within a function body <strong>import</strong> will pop one item off the calling context's stack and push it onto the local stack. Conversely, <strong>export</strong> takes one item off the local stack and pushes it onto the calling context's stack.</p>
+
+<p><em>The reverse polish variant of this operator is not shown here.</em></p>
+
+<p><code>
+function; &lt;name&gt;;
+&lt;function body expression&gt;;
+</code>
+```
+// Function to Enumerate N numbers starting with M;
+function; generate;
+for;
+  import $count = import $start = $start $i =;
+  $i $start $count + &lt;;
+  1 $i +=;
+  $i export;
+  ;</p>
+
+<p>1 10 generate ..
+```</p>
+
+<h3>Further Examples</h3>
+
+<p>```
+// Calculate Area Of Circle ;
+function; areaofcircle;
+  pi import sq product export;</p>
+
+<p>5 areaofcircle . 
+```</p>
+
+<p>Recursive Factorial Function (Prefix version)
+```
+function; ! ;
+  ifelse;
+    import $n = $n 1 eq;
+    1 export;
+    $n 1 - ! $n * export;
+    ;</p>
+
+<p>// Use the function ;
+5 ! .
+```</p>
+
+<p>Equivalent Factorial Function (Postfix version)</p>
+
+<p>```
+// Factorial Function (Postfix version);
+. ! 6 ;
+// Define the function ;</p>
+
+<pre><code>;
+$n 1 - ! $n * export;
+1 export;
+import $n = $n 1 eq;
+</code></pre>
+
+<p>ifelse;
+! ; function 
+```</p>
+
+<p>The following two programs are equivalent:</p>
+
+<p>```</p>
+
+<p>function;
+max;
+  ifelse;
+    import dup $a = import dup $b = &gt;;
+    $a export;
+    $b export;
+    ;</p>
+
+<p>1 100 max .;
+```</p>
+
+<p>```</p>
+
+<p>function;
+max;
+  ifelse;</p>
+
+<blockquote>
+  <p>= $a dup import = $b dup import;
+      export $a;
+      export $b;
+      ;</p>
+</blockquote>
+
+<p>. max 1 100;
+```</p>
+
+<p>Interative Cuberoot Function using X(r+1) = 0.5+ N/(Xr)^2;
+<code>
+function; cuberoot;
+  dowhile;
+    import dup $n = $guess =;
+    $guess $prev = $n $prev sq / $prev + .5 * $guess =;
+    $guess $prev - abs .000000001 &gt;;
+    $guess export ;
+125 cuberoot .
+</code></p>
+
+<p>... and a recursive Cuberoot Function</p>
+
+<p>```
+function; inner-root3;
+  if;
+    import $n = import $prev = $prev $n $prev sq / + .5 * $guess = $guess $prev - abs .000000001 &gt;;
+    $guess $n inner-root3 $guess =;
+    $guess export;</p>
+
+<p>function; root3;
+  import dup inner-root3 export ;</p>
+
+<p>100 root3 .
+```</p>
+
+<h2>Implementation</h2>
+
+<p>Ambi is currently implemented in javascript that executes completely in your browser.</p>
+
+<h2>Version Change Log</h2>
+
+<p>0.6
+  * ADD: <strong>drop, pow, exp, and inv</strong> operators
+  * ADD: 9 short lessons on how to use ambi
+  * CHG: Complete redesign of UI using browser local storage to preserve
+ state across invocations. Added 'My Ambi Functions' which are 
+persistent. UI now auto recalculates as the expression is edited.
+  * ADD: Added extensive error reporting.
+  * ADD: Virtual Keyboard.
+  * CHG: Removal of global variable dependencies from ambi.js
+  * ADD: Unit tests</p>
+
+<p>0.4.4 Streamlining.</p>
+
+<ul>
+<li>ADD: The increment and decrment <strong>++ --</strong> operators.</li>
+<li>CHG: Removed the <strong>seq</strong> operator. It is no longer necessary.</li>
+<li>ADD: Added the <strong>pass</strong> constant. It does nothing, it is behaves as a synonym for <strong>true</strong>.</li>
+<li>CHG: The empty expression ";;" is now equivalent to ";pass;" .</li>
+<li>CHG: Added  to the <strong>dowhile whiledo</strong> and <strong>for</strong> operators. Added  to the <strong>if ifelse dowhile whiledo</strong> and <strong>for</strong> operators. The initialise and finalise expressions must always present but may be <strong>pass</strong> or simply empty.</li>
+</ul>
+
+<p>0.4.3 Ambi is now Turing complete.</p>
+
+<ul>
+<li>ADD: Added <strong>seq dowhile whiledo for if ifelse</strong> operators.</li>
+<li>ADD: Added <strong>function import export</strong> operators.</li>
+<li>ADD: Added <strong>.</strong> operator (Synonym for printtop)</li>
+<li>ADD: Added <strong>..</strong> operator (Synonym for printall) which prints the whole stack.</li>
+<li>ADD: Added <strong>dup</strong> <strong>swap</strong> stack operators.</li>
+<li>ADD: Added <strong>min</strong> and <strong>max</strong> binary arithmetic operators.</li>
+<li>ADD: Added <strong>//</strong> comment operator</li>
+<li>ADD: Added mathematical constant <strong>e</strong>.</li>
+<li>CHG: The unary minus operator is changed from <strong>-</strong> to <strong><code>_</code></strong>.</li>
+<li>CHG: The prefix form of the assignment operator is now <strong>=</strong>  <br>
+<br>
+<br>
+<br>
+<br></li>
+</ul>
+
+<ul><li>FIX: Variables were not pushed onto stack with immutable value only by mutable reference.</li></ul>
+
+<p>0.4.2 further explands the arithmetic capabilities of Ambi.<br>
+<br></p>
+
+<ul><li>ADD: Added trigonometry operators and constants.<br>
+</li><li>FIX: Expressions beginning with a constant such as <b>true</b> where not correctly evaluated.<br>
+</li><li>ADD: Added display of variables.<br>
+</li><li>FIX: The unary minus operator is changed from <b>un</b> to <b>um</b>.</li></ul>
+
+<p>0.4.1 is aimed at greatly expanding the arithmetic capabilities of Ambi.<br>
+<br></p>
+
+<ul><li>ADD: Added boolean operators.<br>
+</li><li>ADD: Added aggregate operators.<br>
+</li><li>ADD: Added many arithmetic operators.</li></ul>
+
+<p>0.4.0 is the first public release.</p></markdown-widget>
+              </div>
+              <div id="gca-project-info-box" class="maia-col-4">
+                <div class="maia-aside">
+                  <h1>Project Information</h1>
+                  <!-- ngIf: projectCtrl.project.creationTime -->
+                  <!-- ngIf: projectCtrl.project.ancestorRepo -->
+                  <ul>
+                    <li>
+                      License: <a class="ng-binding" href="http://www.gnu.org/licenses/gpl.html">
+                        GNU GPL v3</a>
+                    </li>
+                    <!-- ngIf: projectCtrl.project.contentLicenseName -->
+                    <!-- ngIf: projectCtrl.project.stars --><li class="ng-binding ng-scope" ng-if="projectCtrl.project.stars">
+                      2 stars
+                    </li><!-- end ngIf: projectCtrl.project.stars -->
+                    <li class="ng-binding">svn-based source control</li>
+                  </ul>
+                  <!-- ngIf: projectCtrl.project.labels.length > 0 --><p class="ng-scope" ng-if="projectCtrl.project.labels.length &gt; 0">
+                    Labels:
+                    <br>
+                    <!-- ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:ambi"><span class="gca-label ng-binding">ambi</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:programminglanguage"><span class="gca-label ng-binding">programminglanguage</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:reversepolishnotation"><span class="gca-label ng-binding">reversepolishnotation</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:polishnotation"><span class="gca-label ng-binding">polishnotation</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:ambidextrous"><span class="gca-label ng-binding">ambidextrous</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:RPN"><span class="gca-label ng-binding">RPN</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:Forth"><span class="gca-label ng-binding">Forth</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:RPL"><span class="gca-label ng-binding">RPL</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index --><span class="ng-scope" ng-repeat="label in projectCtrl.project.labels track by $index">
+                      <a href="https://code.google.com/archive/search?q=domain:code.google.com%20label:calculator"><span class="gca-label ng-binding">calculator</span></a>
+                    </span><!-- end ngRepeat: label in projectCtrl.project.labels track by $index -->
+                  </p><!-- end ngIf: projectCtrl.project.labels.length > 0 -->
+                </div>
+              </div>
+            </div><!-- end ngIf: projectCtrl.project.found -->
+          </div><!-- end ngSwitchWhen: -->
+
+          <!-- Source -->
+          <!-- ngSwitchWhen: source -->
+
+          <!-- Issues -->
+          <!-- ngSwitchWhen: issues -->
+
+          <!-- Wikis -->
+          <!-- ngSwitchWhen: wikis -->
+
+          <!-- Downloads -->
+          <!-- ngSwitchWhen: downloads -->
+
+          <!-- Default -->
+          <!-- ngSwitchDefault:  -->
+
+        <!-- end Switch -->
+        </div><!-- end ngIf: !projectCtrl.error -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+    <div id="maia-signature"></div>
+    <div class="maia-footer" id="maia-footer">
+      <div id="maia-footer-local">
+      </div>
+      <div id="maia-footer-global">
+        <div class="maia-aux">
+          <ul>
+            <li>
+              <a href="https://www.google.com/">Google</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/about/">About Google</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/policies/privacy/">Privacy</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/policies/terms/">Terms</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="intro_files/maia.js"></script>
+  
+
+</body></html>
